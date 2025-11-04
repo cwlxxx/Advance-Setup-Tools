@@ -218,6 +218,37 @@ foreach ($item in $selectedItems) {
         Remove-Item -Path "HKCU:\Software\Microsoft\Office" -Recurse -Force -ErrorAction SilentlyContinue
         Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\ClickToRun" -Recurse -Force -ErrorAction SilentlyContinue
 
+        # --- Cleanup orphaned registry uninstall entries ---
+        Write-Host "→ Cleaning leftover uninstall entries..." -ForegroundColor DarkGray
+        $uninstallPaths = @(
+            "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall",
+            "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
+        )
+        foreach ($path in $uninstallPaths) {
+            Get-ChildItem $path -ErrorAction SilentlyContinue | ForEach-Object {
+                try {
+                    $name = (Get-ItemProperty $_.PSPath -ErrorAction SilentlyContinue).DisplayName
+                    if ($name -and $name -match "Microsoft Office") {
+                        # double-check if folder still exists
+                        $installLocation = (Get-ItemProperty $_.PSPath -ErrorAction SilentlyContinue).InstallLocation
+                        if (-not (Test-Path $installLocation)) {
+                            Remove-Item $_.PSPath -Recurse -Force -ErrorAction SilentlyContinue
+                        }
+                    }
+                } catch {}
+            }
+        }
+        
+        # --- Verify Office removal ---
+        $wordPath = "C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE"
+        $wordPathX86 = "C:\Program Files (x86)\Microsoft Office\root\Office16\WINWORD.EXE"
+        if (!(Test-Path $wordPath) -and !(Test-Path $wordPathX86)) {
+            Write-Host "✅ $($item.Name) fully removed (no executable remains)." -ForegroundColor Green
+        } else {
+            Write-Host "⚠️ Some Office files still exist on disk, manual cleanup may be needed." -ForegroundColor Yellow
+        }
+
+
         Write-Host "✅ $($item.Name) removed successfully." -ForegroundColor Green
     } catch {
         Write-Host "[❌] Error removing $($item.Name): $_" -ForegroundColor Red
