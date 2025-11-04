@@ -99,7 +99,7 @@
       "Items": [
         {
           "Name": "Steam",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/steam.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/Steam.ps1 | iex"
         },
         {
           "Name": "Epic Games Launcher",
@@ -264,5 +264,5 @@
       ]
     }
   ],
-  "Version": 1.7000000000000004
+  "Version": 1.8
 }
