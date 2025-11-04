@@ -25,7 +25,7 @@ try {
 
 
     Write-Host "Creating Office shortcuts..." -ForegroundColor Cyan
-    irm "https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/settings/CreateMSOfficeShortcut.ps1" | iex
+    irm "https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Settings/CreateMSOfficeShortcut.ps1" | iex
 
 
     Write-Host "Cleaning up temporary files..." -ForegroundColor Yellow
