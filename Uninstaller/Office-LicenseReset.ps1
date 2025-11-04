@@ -1,6 +1,6 @@
 # ============================================================
 #  Advance Setup Tools - Office License Reset / Remove Tool
-#  Version 1.0  |  Full License Wipe (Safe for Cloud Re-Login)
+#  Version 1.1  |  Smart Detection + Safe Confirmation
 #  Compatible: Windows 10 / 11  |  PowerShell 7+
 # ============================================================
 
@@ -17,26 +17,7 @@ Write-Host "   Microsoft Office License Reset Tool      " -ForegroundColor Cyan
 Write-Host "============================================" -ForegroundColor Cyan
 Write-Host ""
 
-# --- User Confirmation ---
-Write-Host "[⚠️] This will remove ALL local Office license and activation data." -ForegroundColor Yellow
-Write-Host "    Use only if Outlook or activation is broken." -ForegroundColor Yellow
-Write-Host "    After reset, you must open Word or Excel and sign in again." -ForegroundColor Yellow
-$confirm = Read-Host "`nType YES to continue"
-if ($confirm -ne "YES") {
-    Write-Host "`n[!] Cancelled by user. No changes made." -ForegroundColor Yellow
-    pause
-    exit
-}
-
-# --- Stop Office and ClickToRun services ---
-Write-Host "`n[⏹️] Stopping Office processes and services..." -ForegroundColor Cyan
-Get-Process WINWORD,EXCEL,OUTLOOK,POWERPNT,ONENOTE,MSACCESS,OfficeClickToRun -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
-Stop-Service -Name ClickToRunSvc -Force -ErrorAction SilentlyContinue
-Stop-Service -Name OfficeSvc -Force -ErrorAction SilentlyContinue
-
-Start-Sleep -Seconds 2
-
-# --- Define target paths ---
+# --- Define target paths and registry keys ---
 $pathsToWipe = @(
     "C:\ProgramData\Microsoft\Office\Licenses",
     "C:\ProgramData\Microsoft\OfficeSoftwareProtectionPlatform",
@@ -45,7 +26,61 @@ $pathsToWipe = @(
     "$env:LOCALAPPDATA\Microsoft\Office\16.0\Licensing"
 )
 
-# --- Delete license folders ---
+$regKeys = @(
+    "HKLM:\SOFTWARE\Microsoft\Office\Licenses",
+    "HKLM:\SOFTWARE\Microsoft\Office\Registration",
+    "HKLM:\SOFTWARE\Microsoft\Office\16.0\Registration",
+    "HKCU:\Software\Microsoft\Office",
+    "HKLM:\SOFTWARE\Microsoft\Office\ClickToRun\Configuration"
+)
+
+# --- Step 1: Scan for license files and registry keys ---
+Write-Host "[🔍] Scanning system for Office license and activation data..." -ForegroundColor Yellow
+$foundItems = [System.Collections.Generic.List[string]]::new()
+
+foreach ($p in $pathsToWipe) {
+    if (Test-Path $p) {
+        $count = (Get-ChildItem -Path $p -Recurse -ErrorAction SilentlyContinue | Measure-Object).Count
+        if ($count -gt 0) {
+            $foundItems.Add("Files: $count in $p")
+        }
+    }
+}
+
+foreach ($key in $regKeys) {
+    if (Test-Path $key) {
+        $foundItems.Add("Registry: $key")
+    }
+}
+
+if ($foundItems.Count -eq 0) {
+    Write-Host "`n[ℹ️] No Office license files or registry entries detected." -ForegroundColor Yellow
+    pause
+    exit
+}
+
+Write-Host "`n[✅] Found the following license data:" -ForegroundColor Cyan
+$foundItems | ForEach-Object { Write-Host "  $_" -ForegroundColor Green }
+
+# --- Step 2: Ask for confirmation ---
+Write-Host ""
+Write-Host "[⚠️] WARNING: This will permanently delete all detected license data." -ForegroundColor Yellow
+Write-Host "    After reset, you must re-sign in with your Microsoft account to reactivate Office." -ForegroundColor Yellow
+$confirm = Read-Host "`nType YES to continue"
+if ($confirm -ne "YES") {
+    Write-Host "`n[!] Cancelled by user. No changes made." -ForegroundColor Yellow
+    pause
+    exit
+}
+
+# --- Step 3: Stop Office and ClickToRun services ---
+Write-Host "`n[⏹️] Stopping Office processes and services..." -ForegroundColor Cyan
+Get-Process WINWORD,EXCEL,OUTLOOK,POWERPNT,ONENOTE,MSACCESS,OfficeClickToRun -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+Stop-Service -Name ClickToRunSvc -Force -ErrorAction SilentlyContinue
+Stop-Service -Name OfficeSvc -Force -ErrorAction SilentlyContinue
+Start-Sleep -Seconds 2
+
+# --- Step 4: Delete license folders ---
 Write-Host "[🧹] Removing license token folders..." -ForegroundColor Cyan
 foreach ($p in $pathsToWipe) {
     if (Test-Path $p) {
@@ -58,15 +93,8 @@ foreach ($p in $pathsToWipe) {
     }
 }
 
-# --- Registry cleanup ---
+# --- Step 5: Registry cleanup ---
 Write-Host "`n[🧾] Cleaning registry license data..." -ForegroundColor Cyan
-$regKeys = @(
-    "HKLM:\SOFTWARE\Microsoft\Office\Licenses",
-    "HKLM:\SOFTWARE\Microsoft\Office\Registration",
-    "HKLM:\SOFTWARE\Microsoft\Office\16.0\Registration",
-    "HKCU:\Software\Microsoft\Office",
-    "HKLM:\SOFTWARE\Microsoft\Office\ClickToRun\Configuration"
-)
 foreach ($key in $regKeys) {
     if (Test-Path $key) {
         try {
@@ -78,7 +106,7 @@ foreach ($key in $regKeys) {
     }
 }
 
-# --- Restart ClickToRun service ---
+# --- Step 6: Restart ClickToRun service ---
 Write-Host "`n[♻️] Restarting ClickToRun service..." -ForegroundColor Cyan
 try {
     Start-Service -Name ClickToRunSvc -ErrorAction SilentlyContinue
@@ -87,12 +115,12 @@ try {
     Write-Host "  (ClickToRun service not found or disabled.)" -ForegroundColor Yellow
 }
 
-# --- Completion message ---
+# --- Step 7: Summary ---
 Write-Host "`n============================================" -ForegroundColor Cyan
 Write-Host " Office License Reset Complete" -ForegroundColor Cyan
 Write-Host "============================================" -ForegroundColor Cyan
-Write-Host "All license files and activation tokens were removed."
-Write-Host "Please open Word or Excel and sign in with your valid Microsoft account."
+Write-Host "All detected license files and registry entries were removed."
+Write-Host "Please open Word or Excel and sign in again with your valid Microsoft account."
 Write-Host "============================================" -ForegroundColor Cyan
 Write-Host ""
 
