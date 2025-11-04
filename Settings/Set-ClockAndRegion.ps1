@@ -1,6 +1,6 @@
 # =====================================================
 # Set-ClockAndRegion.ps1
-# Purpose: Configure system time zone and date format
+# Purpose: Configure system time zone and date/time format
 # Compatible: Windows 10 / Windows 11
 # Requires: Administrator privileges
 # =====================================================
@@ -16,34 +16,54 @@ try {
     Write-Host "Failed to set time zone. Error: $_" -ForegroundColor Red
 }
 
-# ----- 2. Set Date Format -----
+# ----- 2. Set Date/Time Format -----
 try {
-    $culture = Get-Culture
     $regPath = "HKCU:\Control Panel\International"
 
-    # Set short date (for system clock and file explorer)
+    # Date formats
     Set-ItemProperty -Path $regPath -Name "sShortDate" -Value "dd-MM-yyyy"
-
-    # Optional: long date (for full written dates)
     Set-ItemProperty -Path $regPath -Name "sLongDate" -Value "dddd, dd MMMM yyyy"
 
-    # Optional: short time / long time formats (24-hour style)
-    Set-ItemProperty -Path $regPath -Name "sShortTime" -Value "HH:mm"
-    Set-ItemProperty -Path $regPath -Name "sTimeFormat" -Value "HH:mm:ss"
+    # Time formats (12-hour with AM/PM)
+    # h:mm tt → 1:45 PM   |   hh:mm:ss tt → 01:45:30 PM
+    Set-ItemProperty -Path $regPath -Name "sShortTime" -Value "h:mm tt"
+    Set-ItemProperty -Path $regPath -Name "sTimeFormat" -Value "hh:mm:ss tt"
 
-    Write-Host "Date and time formats set successfully (dd-MM-yyyy, 24-hour)" -ForegroundColor Green
+    Write-Host "Date and time formats set successfully (dd-MM-yyyy, 12-hour AM/PM)" -ForegroundColor Green
 } catch {
     Write-Host "Failed to set regional formats. Error: $_" -ForegroundColor Red
 }
 
-# ----- 3. Confirm Result -----
+# ----- 3. Apply Changes Instantly -----
+try {
+    Write-Host "`nApplying settings immediately..." -ForegroundColor Cyan
+
+    # Refresh registry values in current session
+    rundll32.exe user32.dll,UpdatePerUserSystemParameters
+
+    # Restart Explorer for visible clock update (safe)
+    $explorers = Get-Process explorer -ErrorAction SilentlyContinue
+    if ($explorers) {
+        Write-Host "Restarting Explorer..." -ForegroundColor Yellow
+        Stop-Process -Name explorer -Force
+        Start-Sleep -Seconds 2
+        Start-Process explorer.exe
+        Write-Host "Explorer restarted successfully." -ForegroundColor Green
+    } else {
+        Write-Host "Explorer not running — skipping restart." -ForegroundColor Yellow
+    }
+} catch {
+    Write-Host "Failed to refresh Explorer. Error: $_" -ForegroundColor Red
+}
+
+# ----- 4. Confirm Result -----
 Write-Host ""
 Write-Host "Current time zone:" -ForegroundColor Yellow
 Get-TimeZone | Format-Table -AutoSize
 
 Write-Host ""
 Write-Host "Current date/time preview:" -ForegroundColor Yellow
-Get-Date -Format "dd-MM-yyyy HH:mm:ss"
+Get-Date -Format "dd-MM-yyyy hh:mm:ss tt"
 
 Write-Host ""
 Write-Host "=== Configuration Complete ===" -ForegroundColor Cyan
