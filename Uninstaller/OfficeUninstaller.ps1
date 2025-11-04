@@ -42,10 +42,21 @@ try {
         Get-ChildItem $key -ErrorAction SilentlyContinue | ForEach-Object {
             $disp = (Get-ItemProperty $_.PSPath -ErrorAction SilentlyContinue).DisplayName
             if ($disp -and $disp -match "Microsoft Office") {
-                $OfficeList += [PSCustomObject]@{
-                    Name = $disp
-                    Path = (Get-ItemProperty $_.PSPath -ErrorAction SilentlyContinue).InstallLocation
-                    Type = "MSI"
+                # Skip known third-party add-ins or extensions
+                $lower = $disp.ToLower()
+                if ($lower -notmatch "add[- ]?in" -and
+                    $lower -notmatch "plugin" -and
+                    $lower -notmatch "dopdf" -and
+                    $lower -notmatch "pdf" -and
+                    $lower -notmatch "compatibility pack" -and
+                    $lower -notmatch "visual studio" -and
+                    $lower -notmatch "onenote importer") {
+            
+                    $OfficeList += [PSCustomObject]@{
+                        Name = $disp
+                        Path = (Get-ItemProperty $_.PSPath -ErrorAction SilentlyContinue).InstallLocation
+                        Type = "MSI"
+                    }
                 }
             }
         }
