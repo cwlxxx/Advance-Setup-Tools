@@ -5,27 +5,27 @@
       "Items": [
         {
           "Name": "Set Clock and Region ( dd-mm-yyyy )",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/settings/Set-ClockAndRegion.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Settings/Set-ClockAndRegion.ps1 | iex"
         },
         {
           "Name": "Enable Desktop Icons",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/settings/EnableDesktopIcons.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Settings/EnableDesktopIcons.ps1 | iex"
         },
         {
           "Name": "Stamp Host File",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/settings/HostFileTimeStemp.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Settings/HostFileTimeStemp.ps1 | iex"
         },
         {
           "Name": "Disable UAC",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/settings/UAC-Disable.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Settings/UAC-Disable.ps1 | iex"
         },
         {
           "Name": "Disable Sleep",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/settings/TurnOffSleep.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Settings/TurnOffSleep.ps1 | iex"
         },
         {
           "Name": "Disable Fast Startup",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/settings/DisableFastStartup.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Settings/DisableFastStartup.ps1 | iex"
         }
       ]
     },
@@ -34,15 +34,15 @@
       "Items": [
         {
           "Name": "Keyboard Fix (Set US, Remove MY)",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/settings/keyboard-RemoveEnglishMY.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Settings/keyboard-RemoveEnglishMY.ps1 | iex"
         },
         {
           "Name": "Sogou Pinyin",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/SogouPinyin.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/SogouPinyin.ps1 | iex"
         },
         {
           "Name": "Microsoft Pinyin (Simplified)",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/settings/Keyboard-AddChineseSimplified.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Settings/Keyboard-AddChineseSimplified.ps1 | iex"
         }
       ]
     },
@@ -51,11 +51,11 @@
       "Items": [
         {
           "Name": "Google Chrome",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/GoogleChrome.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/GoogleChrome.ps1 | iex"
         },
         {
           "Name": "Mozilla Firefox",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/FireFox.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/FireFox.ps1 | iex"
         }
       ]
     },
@@ -64,7 +64,7 @@
       "Items": [
         {
           "Name": "CoreTemp",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/CoreTemp.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/CoreTemp.ps1 | iex"
         }
       ]
     },
@@ -73,11 +73,11 @@
       "Items": [
         {
           "Name": "Adobe Acrobat Reader DC 64bit",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/AdobeReader.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/AdobeReader.ps1 | iex"
         },
         {
           "Name": "doPDF 11",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/doPDF.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/doPDF.ps1 | iex"
         }
       ]
     },
@@ -86,11 +86,11 @@
       "Items": [
         {
           "Name": "7-Zip",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/7zip.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/7zip.ps1 | iex"
         },
         {
           "Name": "WinRAR",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/WinRAR.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/WinRAR.ps1 | iex"
         }
       ]
     },
@@ -99,11 +99,11 @@
       "Items": [
         {
           "Name": "Steam",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/steam.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/steam.ps1 | iex"
         },
         {
           "Name": "Epic Games Launcher",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/EpicGamesLauncher.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/EpicGamesLauncher.ps1 | iex"
         }
       ]
     },
@@ -112,11 +112,11 @@
       "Items": [
         {
           "Name": "AnyDesk",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/AnyDesk.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/AnyDesk.ps1 | iex"
         },
         {
           "Name": "UltraViewer",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/UltraViewer.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/UltraViewer.ps1 | iex"
         }
       ]
     },
@@ -125,15 +125,15 @@
       "Items": [
         {
           "Name": "VLC Player",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/VLC-Player.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/VLC-Player.ps1 | iex"
         },
         {
           "Name": "K-Lite Codec Pack",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/K-LiteFull.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/K-LiteFull.ps1 | iex"
         },
         {
           "Name": "IrfanView Graphic Viewer",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/IrfanView.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/IrfanView.ps1 | iex"
         }
       ]
     },
@@ -142,7 +142,7 @@
       "Items": [
         {
           "Name": "Zoom",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/Zoom.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/Zoom.ps1 | iex"
         }
       ]
     },
@@ -151,51 +151,51 @@
       "Items": [
         {
           "Name": "Microsoft VCRedist 2015-2022 32bit",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/VisualStudio2015-2022-32bit.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/VisualStudio2015-2022-32bit.ps1 | iex"
         },
         {
           "Name": "Microsoft VCRedist 2015-2022 64bit",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/VisualStudio2015-2022-64bit.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/VisualStudio2015-2022-64bit.ps1 | iex"
         },
         {
           "Name": "Microsoft VCRedist 2013 32bit",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/VisualStudio2013-32bit.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/VisualStudio2013-32bit.ps1 | iex"
         },
         {
           "Name": "Microsoft VCRedist 2013 64bit",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/VisualStudio2013-64bit.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/VisualStudio2013-64bit.ps1 | iex"
         },
         {
           "Name": "Microsoft VCRedist 2012 32bit",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/VisualStudio2012-32bit.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/VisualStudio2012-32bit.ps1 | iex"
         },
         {
           "Name": "Microsoft VCRedist 2012 64bit",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/VisualStudio2012-64bit.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/VisualStudio2012-64bit.ps1 | iex"
         },
         {
           "Name": "Microsoft VCRedist 2010 32bit",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/VisualStudio2010-32bit.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/VisualStudio2010-32bit.ps1 | iex"
         },
         {
           "Name": "Microsoft VCRedist 2010 64bit",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/VisualStudio2010-64bit.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/VisualStudio2010-64bit.ps1 | iex"
         },
         {
           "Name": "Microsoft VCRedist 2008 32bit",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/VisualStudio2008-32bit.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/VisualStudio2008-32bit.ps1 | iex"
         },
         {
           "Name": "Microsoft VCRedist 2008 64bit",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/VisualStudio2008-64bit.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/VisualStudio2008-64bit.ps1 | iex"
         },
         {
           "Name": "Microsoft VCRedist 2005 32bit",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/VisualStudio2005-32bit.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/VisualStudio2005-32bit.ps1 | iex"
         },
         {
           "Name": "Microsoft VCRedist 2005 64bit",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/VisualStudio2005-64bit.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/VisualStudio2005-64bit.ps1 | iex"
         }
       ]
     },
@@ -204,11 +204,11 @@
       "Items": [
         {
           "Name": "Java Runtime 32bit",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/OrecleJavaRuntime-32bit.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/OrecleJavaRuntime-32bit.ps1 | iex"
         },
         {
           "Name": "Java Runtime 64bit",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/vault7/refs/heads/main/install/OrecleJavaRuntime-64bit.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/OrecleJavaRuntime-64bit.ps1 | iex"
         }
       ]
     }
@@ -264,5 +264,5 @@
       ]
     }
   ],
-  "Version": 1.2
+  "Version": 1.7000000000000004
 }
