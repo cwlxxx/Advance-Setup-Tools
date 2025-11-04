@@ -122,7 +122,8 @@ $form.Controls.Add($cancelButton)
 # ============================================================
 #  Button Logic
 # ============================================================
-$selectedItems = @()
+# --- FIX: Proper array handling for PowerShell 7 ---
+$selectedItems = New-Object System.Collections.ArrayList
 
 # Select All
 $selectAllButton.Add_Click({
@@ -138,13 +139,15 @@ $selectNoneButton.Add_Click({
     }
 })
 
+
 # Uninstall
 $okButton.Add_Click({
     foreach ($index in $checkedList.CheckedIndices) {
-        $selectedItems += $OfficeList[$index]
+        [void]$selectedItems.Add($OfficeList[$index])
     }
     $form.Close()
 })
+
 
 # --- FIX: Safe Cancel Button ---
 $cancelButton.Add_Click({
