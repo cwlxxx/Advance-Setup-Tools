@@ -66,12 +66,21 @@ $foundItems | ForEach-Object { Write-Host "  $_" -ForegroundColor Green }
 Write-Host ""
 Write-Host "[⚠️] WARNING: This will permanently delete all detected license data." -ForegroundColor Yellow
 Write-Host "    After reset, you must re-sign in with your Microsoft account to reactivate Office." -ForegroundColor Yellow
-$confirm = Read-Host "`nType YES to continue"
-if ($confirm -ne "YES") {
+Add-Type -AssemblyName PresentationFramework
+
+$result = [System.Windows.MessageBox]::Show(
+    "This will permanently delete all detected Office license and activation data.`n`nAfter reset, you must re-sign in with your Microsoft account to reactivate Office.`n`nAre you sure you want to continue?",
+    "⚠️ Confirm Office License Reset",
+    [System.Windows.MessageBoxButton]::YesNo,
+    [System.Windows.MessageBoxImage]::Warning
+)
+
+if ($result -ne [System.Windows.MessageBoxResult]::Yes) {
     Write-Host "`n[!] Cancelled by user. No changes made." -ForegroundColor Yellow
     pause
     exit
 }
+
 
 # --- Step 3: Stop Office and ClickToRun services ---
 Write-Host "`n[⏹️] Stopping Office processes and services..." -ForegroundColor Cyan
