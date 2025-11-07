@@ -121,7 +121,7 @@ $AdobeProducts = Get-Content $CachePath | ConvertFrom-Json
 # Create Form
 $form             = New-Object System.Windows.Forms.Form
 $form.Text        = "Adobe Product Uninstaller — Safe Clean Edition"
-$form.Size        = New-Object System.Drawing.Size(700,500)
+$form.Size        = New-Object System.Drawing.Size(700,530)
 $form.StartPosition = "CenterScreen"
 $form.BackColor   = [System.Drawing.Color]::FromArgb(40,40,40)
 $form.ForeColor   = [System.Drawing.Color]::White
@@ -137,7 +137,7 @@ $form.Controls.Add($labelTitle)
 
 # CheckedListBox for product list
 $listBox = New-Object System.Windows.Forms.CheckedListBox
-$listBox.Size = New-Object System.Drawing.Size(640,320)
+$listBox.Size = New-Object System.Drawing.Size(640,300)
 $listBox.Location = New-Object System.Drawing.Point(20,60)
 $listBox.BackColor = [System.Drawing.Color]::FromArgb(55,55,55)
 $listBox.ForeColor = [System.Drawing.Color]::White
@@ -149,11 +149,19 @@ foreach ($p in $AdobeProducts) {
 }
 $form.Controls.Add($listBox)
 
+# 🆕 Deep Clean Checkbox
+$chkDeepClean = New-Object System.Windows.Forms.CheckBox
+$chkDeepClean.Text = "🧹 Deep Clean (Remove Licenses & Shared Cache)"
+$chkDeepClean.AutoSize = $true
+$chkDeepClean.Checked = $false
+$chkDeepClean.Location = New-Object System.Drawing.Point(20,370)
+$form.Controls.Add($chkDeepClean)
+
 # Buttons
 $btnUninstall = New-Object System.Windows.Forms.Button
 $btnUninstall.Text = "Uninstall Selected"
 $btnUninstall.Size = New-Object System.Drawing.Size(180,40)
-$btnUninstall.Location = New-Object System.Drawing.Point(480,400)
+$btnUninstall.Location = New-Object System.Drawing.Point(480,430)
 $btnUninstall.BackColor = [System.Drawing.Color]::FromArgb(70,130,180)
 $btnUninstall.FlatStyle = "Flat"
 $btnUninstall.ForeColor = [System.Drawing.Color]::White
@@ -162,7 +170,7 @@ $form.Controls.Add($btnUninstall)
 $btnRefresh = New-Object System.Windows.Forms.Button
 $btnRefresh.Text = "Refresh List"
 $btnRefresh.Size = New-Object System.Drawing.Size(120,40)
-$btnRefresh.Location = New-Object System.Drawing.Point(340,400)
+$btnRefresh.Location = New-Object System.Drawing.Point(340,430)
 $btnRefresh.BackColor = [System.Drawing.Color]::FromArgb(90,90,90)
 $btnRefresh.FlatStyle = "Flat"
 $btnRefresh.ForeColor = [System.Drawing.Color]::White
@@ -171,7 +179,7 @@ $form.Controls.Add($btnRefresh)
 $btnExit = New-Object System.Windows.Forms.Button
 $btnExit.Text = "Exit"
 $btnExit.Size = New-Object System.Drawing.Size(120,40)
-$btnExit.Location = New-Object System.Drawing.Point(200,400)
+$btnExit.Location = New-Object System.Drawing.Point(200,430)
 $btnExit.BackColor = [System.Drawing.Color]::FromArgb(120,60,60)
 $btnExit.FlatStyle = "Flat"
 $btnExit.ForeColor = [System.Drawing.Color]::White
@@ -181,7 +189,7 @@ $form.Controls.Add($btnExit)
 $status = New-Object System.Windows.Forms.Label
 $status.Text = "Ready."
 $status.AutoSize = $true
-$status.Location = New-Object System.Drawing.Point(20,440)
+$status.Location = New-Object System.Drawing.Point(20,480)
 $form.Controls.Add($status)
 
 # Button Events
@@ -211,6 +219,7 @@ $btnUninstall.Add_Click({
         return
     }
     $script:SelectedProducts = $selected
+    $script:DeepClean = $chkDeepClean.Checked  # 🆕 Pass checkbox value
     $form.DialogResult = [System.Windows.Forms.DialogResult]::OK
     $form.Close()
 })
@@ -218,7 +227,6 @@ $btnUninstall.Add_Click({
 # Show form
 $result = $form.ShowDialog()
 #endregion
-
 
 #region === Adobe Uninstaller : Uninstall + Cleanup ===
 if ($result -ne [System.Windows.Forms.DialogResult]::OK) {
@@ -307,6 +315,30 @@ foreach ($app in $SelectedProducts) {
     Write-Log "Cleanup finished for $($app.Name)"
 }
 
+# 🆕 Deep Clean Section
+if ($DeepClean -eq $true) {
+    Write-Log "-------------------------------------------"
+    Write-Log "Deep Clean Mode Enabled — Removing License & Shared Cache"
+    $LicensePaths = @(
+        "$env:ProgramData\Adobe\SLStore",
+        "$env:ProgramData\Adobe\SLCache",
+        "$env:ProgramData\regid.1986-12.com.adobe",
+        "$env:ProgramFiles\Common Files\Adobe\Adobe PCD",
+        "$env:ProgramFiles(x86)\Common Files\Adobe\Adobe PCD"
+    )
+    foreach ($lp in $LicensePaths) {
+        if (Test-Path $lp) {
+            try {
+                Remove-Item $lp -Recurse -Force -ErrorAction Stop
+                Write-Log "Removed license folder: $lp"
+            } catch {
+                Write-Log "Failed to remove license folder: $lp — $($_.Exception.Message)"
+            }
+        }
+    }
+    Write-Log "License cleanup complete."
+}
+
 Write-Log "-------------------------------------------"
 Write-Log "All selected uninstall operations complete."
 
@@ -320,5 +352,3 @@ Write-Host "`nUninstall log saved at: $LogFile" -ForegroundColor Green
 Write-Host "`nProcess complete. You may close this window." -ForegroundColor Cyan
 [System.Windows.Forms.MessageBox]::Show("Adobe product removal complete.`nLog saved on Desktop.","Adobe Uninstaller",0,64)
 #endregion
-
-
