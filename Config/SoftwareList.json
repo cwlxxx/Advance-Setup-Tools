@@ -47,6 +47,15 @@
       ]
     },
     {
+      "Header": "\uD83D\uDEE1\uFE0F Anti-Virus",
+      "Items": [
+        {
+          "Name": "Avira Antivirus",
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/AviraAntivirus.ps1 | iex"
+        }
+      ]
+    },
+    {
       "Header": "\uD83C\uDF10 Web Browsers",
       "Items": [
         {
@@ -220,6 +229,7 @@
         "7-Zip",
         "Adobe Acrobat Reader DC 64bit",
         "AnyDesk",
+        "Avira Antivirus",
         "Disable Fast Startup",
         "Disable Sleep",
         "Disable UAC",
@@ -264,5 +274,5 @@
       ]
     }
   ],
-  "Version": 1.8
+  "Version": 2
 }
