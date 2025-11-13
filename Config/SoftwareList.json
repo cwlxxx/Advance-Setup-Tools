@@ -343,7 +343,6 @@
         "Disable Fast Startup",
         "Disable Sleep",
         "Disable UAC",
-        "doPDF 11",
         "Enable Desktop Icons",
         "Google Chrome",
         "IrfanView Graphic Viewer",
@@ -384,5 +383,5 @@
       ]
     }
   ],
-  "Version": 3.7
+  "Version": 3.8
 }
