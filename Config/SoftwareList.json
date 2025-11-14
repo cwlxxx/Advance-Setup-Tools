@@ -369,11 +369,12 @@
         "CoreTemp",
         "Disable Fast Startup",
         "Disable Sleep",
-        "Disable UAC",
         "Enable Desktop Icons",
         "Google Chrome",
         "Keyboard Fix (Set US, Remove MY)",
         "Microsoft Pinyin (Simplified)",
+        "Microsoft VCRedist 2015-2022 32bit",
+        "Microsoft VCRedist 2015-2022 64bit",
         "Mozilla Firefox",
         "Set Clock and Region ( dd-mm-yyyy )",
         "Steam",
@@ -383,5 +384,5 @@
       ]
     }
   ],
-  "Version": 4.0
+  "Version": 4.1
 }
