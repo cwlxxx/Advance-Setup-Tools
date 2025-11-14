@@ -377,6 +377,7 @@
         "Microsoft VCRedist 2015-2022 64bit",
         "Mozilla Firefox",
         "Set Clock and Region ( dd-mm-yyyy )",
+        "Stamp Host File",
         "Steam",
         "VLC Player",
         "WinRAR",
@@ -384,5 +385,5 @@
       ]
     }
   ],
-  "Version": 4.1
+  "Version": 4.2
 }
