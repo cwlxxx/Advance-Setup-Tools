@@ -46,7 +46,7 @@
         },
         {
           "Name": "Google Pinyin",
-          "Script": "winget install --id Google.Pinyin --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/GooglePinyin.ps1 | iex"
         }
       ]
     },
@@ -55,27 +55,27 @@
       "Items": [
         {
           "Name": "CPU-Z",
-          "Script": "winget install --id CPUID.CPU-Z --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/CPU-Z.ps1 | iex"
         },
         {
           "Name": "GPU-Z",
-          "Script": "winget install --id TechPowerUp.GPU-Z --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/GPU-Z.ps1 | iex"
         },
         {
           "Name": "Crystal Disk Info",
-          "Script": "winget install --id CrystalDewWorld.CrystalDiskInfo --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/CrystalDiskInfo.ps1 | iex"
         },
         {
           "Name": "Crystal Disk Mark",
-          "Script": "winget install --id CrystalDewWorld.CrystalDiskMark --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/CrystalDiskMark.ps1 | iex"
         },
         {
           "Name": "MSI Afterburner",
-          "Script": "winget install -- id Guru3D.Afterburner --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/MSIAfterburner.ps1 | iex"
         },
         {
           "Name": "HW Monitor",
-          "Script": "winget install --id CPUID.HWMonitor --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/HWMonitor.ps1 | iex"
         },
         {
           "Name": "CoreTemp",
@@ -88,19 +88,19 @@
       "Items": [
         {
           "Name": "Unigine Heaven Benchmark",
-          "Script": "winget install --id Unigine.HeavenBenchmark --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/HeavenBenchmark.ps1 | iex"
         },
         {
           "Name": "Unigine Superposition Benchmark",
-          "Script": "winget install --id Unigine.SuperpositionBenchmark --source winget --exact"
-        },
-        {
-          "Name": "FurMark",
-          "Script": "winget install --id Geeks3D.FurMark.2 --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/SuperpositionBenchmark.ps1 | iex"
         },
         {
           "Name": "Unigine Valley Benchmark",
-          "Script": "winget install --id Unigine.ValleyBenchmark --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/ValleyBenchmark.ps1 | iex"
+        },
+        {
+          "Name": "FurMark 2",
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/FurMark2.ps1 | iex"
         }
       ]
     },
@@ -109,7 +109,7 @@
       "Items": [
         {
           "Name": "OBS Studio",
-          "Script": "winget install --id OBSProject.OBSStudio --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/OBSStudio.ps1 | iex"
         },
         {
           "Name": "Steam",
@@ -383,5 +383,5 @@
       ]
     }
   ],
-  "Version": 3.8
+  "Version": 3.9
 }
