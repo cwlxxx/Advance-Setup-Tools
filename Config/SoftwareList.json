@@ -172,19 +172,19 @@
         },
         {
           "Name": "Brave Browser",
-          "Script": "winget install --id Brave.Brave --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/BraveBrowser.ps1 | iex"
         },
         {
           "Name": "Chromium",
-          "Script": "winget install --id Hibbiki.Chromium --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/Chromium.ps1 | iex"
         },
         {
           "Name": "Microsoft Edge",
-          "Script": "winget install --id Microsoft.Edge --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/MicrosoftEdge.ps1 | iex"
         },
         {
           "Name": "Tor Browser (DarkWeb)",
-          "Script": "winget install --id TorProject.TorBrowser --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/TorBrowser.ps1 | iex"
         }
       ]
     },
@@ -197,15 +197,15 @@
         },
         {
           "Name": "WeChat",
-          "Script": "winget install --id Tencent.WeChat --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/WeChat.ps1 | iex"
         },
         {
           "Name": "WhatsApp (Ms Store)",
-          "Script": "winget install --id 9NKSQGP7F2NH --source msstore --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/WhatsApp.ps1 | iex"
         },
         {
           "Name": "Telegram",
-          "Script": "winget install --id Telegram.TelegramDesktop --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/Telegram.ps1 | iex"
         }
       ]
     },
@@ -383,5 +383,5 @@
       ]
     }
   ],
-  "Version": 3.9
+  "Version": 4.0
 }
