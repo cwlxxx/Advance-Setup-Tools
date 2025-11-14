@@ -244,7 +244,7 @@
         },
         {
           "Name": "doPDF 11",
-          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/doPDF.ps1 | iex"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/doPDF11.ps1 | iex"
         },
         {
           "Name": "Notepad\u002B\u002B",
