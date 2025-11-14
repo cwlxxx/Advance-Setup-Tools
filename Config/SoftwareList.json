@@ -126,19 +126,19 @@
       "Items": [
         {
           "Name": "BlueStack (Android Emulator)",
-          "Script": "winget install --id BlueStack.BlueStacks --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/BlueStack.ps1 | iex"
         },
         {
           "Name": "Dolphin (GameCube / Wii Emulator)",
-          "Script": "winget install --id DolphinEmulator.Dolphin --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/DolphinEmulator.ps1 | iex"
         },
         {
           "Name": "PCSX2 (PS2 Emulator)",
-          "Script": "winget install --id PCSX2Team.PCSX2 --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/PCSX2.ps1 | iex"
         },
         {
           "Name": "PPSSPP (PSP Emulator)",
-          "Script": "winget install --id PPSSPPTeam.PPSSPP --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/PPSSPP.ps1 | iex"
         }
       ]
     },
@@ -168,7 +168,7 @@
         },
         {
           "Name": "Opera GX",
-          "Script": "winget install --id Opera.OperaGX --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/OperaGX.ps1 | iex"
         },
         {
           "Name": "Brave Browser",
