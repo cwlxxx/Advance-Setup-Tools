@@ -248,7 +248,7 @@
         },
         {
           "Name": "Notepad\u002B\u002B",
-          "Script": "winget install --id Notepad\u002B\u002B.Notepad\u002B\u002B --source winget --exact"
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/Notepad%2B%2B.ps1 | iex"
         }
       ]
     },
