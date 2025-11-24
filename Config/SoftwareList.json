@@ -319,7 +319,7 @@
       ]
     },
     {
-      "Header": "\u2699\uFE0F Microsoft Dotnet Desktop Runtime",
+      "Header": "\u2699\uFE0F Microsoft .Net Desktop Runtime",
       "Items": [
         {
           "Name": "Microsoft .NET Windows Desktop Runtime 10.0",
@@ -420,5 +420,5 @@
       ]
     }
   ],
-  "Version": 4.6
+  "Version": 4.7
 }
