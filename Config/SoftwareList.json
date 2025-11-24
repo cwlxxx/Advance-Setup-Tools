@@ -319,6 +319,35 @@
       ]
     },
     {
+      "Header": "\u2699\uFE0F Microsoft Dotnet Desktop Runtime",
+      "Items": [
+        {
+          "Name": "Microsoft .NET Windows Desktop Runtime 10.0",
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/dotnet10.ps1 | iex"
+        },
+        {
+          "Name": "Microsoft .NET Windows Desktop Runtime 9.0",
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/dotnet9.ps1 | iex"
+        },
+        {
+          "Name": "Microsoft .NET Windows Desktop Runtime 8.0",
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/dotnet8.ps1 | iex"
+        },
+        {
+          "Name": "Microsoft .NET Windows Desktop Runtime 7.0",
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/dotnet7.ps1 | iex"
+        },
+        {
+          "Name": "Microsoft .NET Windows Desktop Runtime 6.0",
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/dotnet6.ps1 | iex"
+        },
+        {
+          "Name": "Microsoft .NET Windows Desktop Runtime 5.0",
+          "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Install/dotnet5.ps1 | iex"
+        }
+      ]
+    },
+    {
       "Header": "\u2615 Java Runtime",
       "Items": [
         {
@@ -350,6 +379,12 @@
         "Java Runtime 64bit",
         "K-Lite Codec Pack",
         "Keyboard Fix (Set US, Remove MY)",
+        "Microsoft .NET Windows Desktop Runtime 5.0",
+        "Microsoft .NET Windows Desktop Runtime 6.0",
+        "Microsoft .NET Windows Desktop Runtime 7.0",
+        "Microsoft .NET Windows Desktop Runtime 8.0",
+        "Microsoft .NET Windows Desktop Runtime 9.0",
+        "Microsoft .NET Windows Desktop Runtime 10.0",
         "Microsoft VCRedist 2015-2022 32bit",
         "Microsoft VCRedist 2015-2022 64bit",
         "Mozilla Firefox",
@@ -385,5 +420,5 @@
       ]
     }
   ],
-  "Version": 4.3
+  "Version": 4.6
 }
