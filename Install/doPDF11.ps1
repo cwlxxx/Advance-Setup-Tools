@@ -1,8 +1,6 @@
 # ===========================================
 # 📦 doPDF 11 Installer (Smart Fallback Edition)
 # ===========================================
-
-Write-Host "Installing doPDF 11..." -ForegroundColor Cyan
 winget settings --enable InstallerHashOverride
 try {
     Write-Host "🪟 Trying Winget installation first..." -ForegroundColor DarkGray
