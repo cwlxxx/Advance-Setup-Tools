@@ -3,13 +3,13 @@
 # ===========================================
 
 Write-Host "Installing doPDF 11..." -ForegroundColor Cyan
-
+winget settings --enable InstallerHashOverride
 try {
     Write-Host "🪟 Trying Winget installation first..." -ForegroundColor DarkGray
 
     # Try Winget install (throws if Winget exits with non-zero code)
     $wingetProcess = Start-Process -FilePath "winget.exe" `
-        -ArgumentList 'install --id Softland.doPDF.11 --source winget --exact --silent --accept-package-agreements --accept-source-agreements' `
+        -ArgumentList 'install --id Softland.doPDF.11 --source winget --exact --silent --accept-package-agreements --accept-source-agreements --ignore-security-hash' `
         -NoNewWindow -Wait -PassThru
 
     if ($wingetProcess.ExitCode -eq 0) {
