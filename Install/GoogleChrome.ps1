@@ -2,7 +2,7 @@ Write-Host "Installing Google Chrome..."
 
 # Try winget first
 try {
-    winget install --id Google.Chrome -e --silent --accept-package-agreements --accept-source-agreements
+    winget install --id Google.Chrome -e --silent --accept-package-agreements --accept-source-agreements --ignore-security-hash
     if ($LASTEXITCODE -eq 0) {
         Write-Host "Google Chrome installed successfully via winget."
         return
