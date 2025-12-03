@@ -1,63 +1,40 @@
-# ================================
-# Install Google Chrome Script
-# Winget first → fallback to MSI download
-# Auto-delete downloaded installer
-# ================================
+Write-Host "Installing Google Chrome..."
 
-Write-Host "Installing Google Chrome using winget..." -ForegroundColor Cyan
-
-# Try Winget installation
-$wingetResult = winget install --id Google.Chrome --source winget --exact --silent --accept-source-agreements --accept-package-agreements -h 2>&1
-
-if ($LASTEXITCODE -eq 0) {
-    Write-Host "Google Chrome installed successfully using winget!" -ForegroundColor Green
-    exit
-}
-else {
-    Write-Host "Winget install failed! Fallback to direct download..." -ForegroundColor Yellow
-}
-
-# ================================
-# Step 2: Download Chrome Installer
-# ================================
-
-$chromeUrl = "https://dl.google.com/dl/chrome/install/googlechromestandaloneenterprise64.msi"
-$downloadPath = "$env:TEMP\ChromeInstall.msi"
-
-Write-Host "Downloading Chrome installer..." -ForegroundColor Cyan
-
+# Try winget first
 try {
-    Invoke-WebRequest -Uri $chromeUrl -OutFile $downloadPath
-    Write-Host "Download completed: $downloadPath" -ForegroundColor Green
+    winget install --id Google.Chrome -e --silent --accept-package-agreements --accept-source-agreements
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "Google Chrome installed successfully via winget."
+        return
+    } else {
+        Write-Host "Winget failed. Trying fallback method..."
+    }
 }
 catch {
-    Write-Host "Failed to download Chrome installer!" -ForegroundColor Red
-    exit 1
+    Write-Host "Winget not available. Trying fallback method..."
 }
 
-# ================================
-# Step 3: Install Chrome
-# ================================
+# Fallback download URL
+$ChromeURL = "https://dl.google.com/chrome/install/latest/chrome_installer.exe"
+$TempFile  = "$env:TEMP\chrome_installer.exe"
 
-Write-Host "Installing Chrome using MSI installer..." -ForegroundColor Cyan
+try {
+    Write-Host "Downloading Chrome installer..."
+    Invoke-WebRequest -Uri $ChromeURL -OutFile $TempFile
 
-$installResult = Start-Process "msiexec.exe" -ArgumentList "/i `"$downloadPath`" /qn /norestart" -Wait -PassThru
+    Write-Host "Running installer..."
+    Start-Process $TempFile -ArgumentList "/silent", "/install" -Wait
 
-# ================================
-# Step 4: Cleanup Installer
-# ================================
+    Write-Host "Chrome installed via fallback method."
 
-if (Test-Path $downloadPath) {
-    Remove-Item $downloadPath -Force
-    Write-Host "Cleaned up installer file." -ForegroundColor DarkGray
+} catch {
+    Write-Host "Failed to install Google Chrome: $($_.Exception.Message)"
 }
 
-# ================================
+# Cleanup
+if (Test-Path $TempFile) {
+    Remove-Item $TempFile -Force
+    Write-Host "Cleaned up temporary installer."
+}
 
-if ($installResult.ExitCode -eq 0) {
-    Write-Host "Google Chrome installed successfully!" -ForegroundColor Green
-}
-else {
-    Write-Host "Chrome installation failed! Exit code: $($installResult.ExitCode)" -ForegroundColor Red
-    exit 1
-}
+Write-Host "Chrome install script finished. Continuing..."
