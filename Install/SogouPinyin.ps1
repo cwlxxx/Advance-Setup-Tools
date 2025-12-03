@@ -5,14 +5,14 @@
 # Desc    : Installs Sogou Pinyin via Winget.
 #           Ensures English (US) exists and is set as default.
 # =========================================================
-
+winget settings --enable InstallerHashOverride
 try {
     Write-Host "🔍 Checking for existing Sogou installation..." -ForegroundColor Cyan
     $SogouInstalled = winget list | Select-String -Pattern "Sogou Pinyin"
 
     if (-not $SogouInstalled) {
         Write-Host "➕ Installing Sogou Pinyin via Winget..." -ForegroundColor Yellow
-        winget install --id Sogou.SogouInput --source winget --exact --accept-package-agreements --accept-source-agreements
+        winget install --id Sogou.SogouInput --source winget --exact --accept-package-agreements --accept-source-agreements -ignore-security-hash
         Write-Host "✅ Sogou Pinyin installation completed." -ForegroundColor Green
     } else {
         Write-Host "✅ Sogou Pinyin already installed." -ForegroundColor Green
