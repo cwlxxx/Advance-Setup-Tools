@@ -379,12 +379,6 @@
         "Java Runtime 64bit",
         "K-Lite Codec Pack",
         "Keyboard Fix (Set US, Remove MY)",
-        "Microsoft .NET Windows Desktop Runtime 5.0",
-        "Microsoft .NET Windows Desktop Runtime 6.0",
-        "Microsoft .NET Windows Desktop Runtime 7.0",
-        "Microsoft .NET Windows Desktop Runtime 8.0",
-        "Microsoft .NET Windows Desktop Runtime 9.0",
-        "Microsoft .NET Windows Desktop Runtime 10.0",
         "Microsoft VCRedist 2015-2022 32bit",
         "Microsoft VCRedist 2015-2022 64bit",
         "Mozilla Firefox",
@@ -420,5 +414,5 @@
       ]
     }
   ],
-  "Version": 4.7
+  "Version": 4.8
 }
