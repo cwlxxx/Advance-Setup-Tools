@@ -3,9 +3,9 @@
 # ===========================================
 
 Write-Host "Installing VLC Media Player..." -ForegroundColor Cyan
-
+winget settings --enable InstallerHashOverride
 # Run the Winget installation (silent mode)
-Start-Process "winget.exe" -ArgumentList "install --id VideoLAN.VLC --source winget --exact --accept-package-agreements --accept-source-agreements" -NoNewWindow -Wait
+Start-Process "winget.exe" -ArgumentList "install --id VideoLAN.VLC --source winget --exact --accept-package-agreements --accept-source-agreements --ignore-security-hash" -NoNewWindow -Wait
 
 Write-Host "⏳ Waiting for VLC installation to complete..." -ForegroundColor Cyan
 
