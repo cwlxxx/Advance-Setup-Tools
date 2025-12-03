@@ -1,4 +1,5 @@
 Write-Host "Installing Google Chrome..."
+winget settings --enable InstallerHashOverride
 
 # Try winget first
 try {
