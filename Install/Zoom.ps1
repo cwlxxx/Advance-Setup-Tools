@@ -5,7 +5,7 @@
 Write-Host "Installing Zoom..." -ForegroundColor Cyan
 
 # Run the Winget installation (silent)
-Start-Process "winget.exe" -ArgumentList "install --id Zoom.Zoom --source winget --exact --accept-package-agreements --accept-source-agreements --ignore-security-has" -NoNewWindow -Wait
+Start-Process "winget.exe" -ArgumentList "install --id Zoom.Zoom --source winget --exact --accept-package-agreements --accept-source-agreements --ignore-security-hash" -NoNewWindow -Wait
 
 Write-Host "⏳ Waiting for Zoom installation to complete..." -ForegroundColor Cyan
 
