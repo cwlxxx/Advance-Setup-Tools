@@ -3,7 +3,7 @@
 # ===========================================
 
 Write-Host "Installing Zoom..." -ForegroundColor Cyan
-
+winget settings --enable InstallerHashOverride
 # Run the Winget installation (silent)
 Start-Process "winget.exe" -ArgumentList "install --id Zoom.Zoom --source winget --exact --accept-package-agreements --accept-source-agreements --ignore-security-hash" -NoNewWindow -Wait
 
