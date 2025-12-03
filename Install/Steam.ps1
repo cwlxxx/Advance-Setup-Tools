@@ -1,1 +1,2 @@
-winget install --id Valve.Steam --source winget --exact
+winget settings --enable InstallerHashOverride
+winget install --id Valve.Steam --source winget --exact -ignore-security-hash
