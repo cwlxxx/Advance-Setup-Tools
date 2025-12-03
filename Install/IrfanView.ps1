@@ -1,6 +1,5 @@
-Write-Host "Installing IrfanView 64..." -ForegroundColor Cyan
 winget settings --enable InstallerHashOverride
-# Run the Winget installation (silent)
+
 Start-Process "winget.exe" -ArgumentList "install --id=IrfanSkiljan.IrfanView --source winget --exact --accept-package-agreements --accept-source-agreements --ignore-security-hash" -NoNewWindow -Wait
 
 Write-Host "⏳ Waiting for IrfanView installation to complete..." -ForegroundColor Cyan
