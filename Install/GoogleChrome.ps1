@@ -22,8 +22,8 @@ try {
     Write-Host "Downloading Chrome installer..."
     Invoke-WebRequest -Uri $ChromeURL -OutFile $TempFile
 
-    Write-Host "Running installer..."
-    Start-Process $TempFile -ArgumentList "/silent", "/install" -Wait
+    Write-Host "Running installer (UI mode)..."
+    Start-Process $TempFile -Wait   # <-- No /silent
 
     Write-Host "Chrome installed via fallback method."
 
@@ -36,5 +36,6 @@ if (Test-Path $TempFile) {
     Remove-Item $TempFile -Force
     Write-Host "Cleaned up temporary installer."
 }
+
 
 Write-Host "Chrome install script finished. Continuing..."
