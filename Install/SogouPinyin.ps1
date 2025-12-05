@@ -5,18 +5,15 @@
 # Desc    : Installs Sogou Pinyin via Winget.
 #           Ensures English (US) exists and is set as default.
 # =========================================================
-winget settings --enable InstallerHashOverride
-try {
-    Write-Host "🔍 Checking for existing Sogou installation..." -ForegroundColor Cyan
-    $SogouInstalled = winget list | Select-String -Pattern "Sogou Pinyin"
 
-    if (-not $SogouInstalled) {
-        Write-Host "➕ Installing Sogou Pinyin via Winget..." -ForegroundColor Yellow
-        winget install --id Sogou.SogouInput --source winget --exact --accept-package-agreements --accept-source-agreements --ignore-security-hash
-        Write-Host "✅ Sogou Pinyin installation completed." -ForegroundColor Green
-    } else {
-        Write-Host "✅ Sogou Pinyin already installed." -ForegroundColor Green
-    }
+winget settings --enable InstallerHashOverride
+
+try {
+    Write-Host "➕ Installing Sogou Pinyin via Winget..." -ForegroundColor Yellow
+    winget install --id Sogou.SogouInput --source winget --exact `
+        --accept-package-agreements --accept-source-agreements `
+        --ignore-security-hash
+    Write-Host "✅ Sogou Pinyin installation step completed." -ForegroundColor Green
 
     # --- Step 2 : Adjust Windows language list ---
     Write-Host "⚙️ Checking current language list..." -ForegroundColor Cyan
@@ -24,10 +21,12 @@ try {
 
     # --- Step 3 : Ensure English (US) is present and default ---
     $usLang = $langList | Where-Object { $_.LanguageTag -eq 'en-US' }
+
     if ($usLang) {
         Write-Host "✅ English (US) found — setting as default."
         $langList = @($usLang) + ($langList | Where-Object { $_.LanguageTag -ne 'en-US' })
-    } else {
+    }
+    else {
         Write-Host "⚠️ English (US) not found — adding manually."
         $usLang = New-WinUserLanguageList en-US
         $langList = @($usLang) + $langList
@@ -37,7 +36,7 @@ try {
     Set-WinUserLanguageList $langList -Force | Out-Null
     Write-Host "✅ English (US) set as default successfully." -ForegroundColor Green
 
-    # --- Step 5 : Restart input service (for immediate effect) ---
+    # --- Step 5 : Restart input service ---
     Write-Host "🔄 Restarting input service..." -ForegroundColor Cyan
     Start-Process -FilePath "cmd.exe" -ArgumentList '/c taskkill /im ctfmon.exe /f' -WindowStyle Hidden | Out-Null
     Start-Sleep -Milliseconds 800
@@ -52,6 +51,7 @@ try {
 catch {
     Write-Host "❌ Error during setup: $($_.Exception.Message)" -ForegroundColor Red
 }
+
 # =========================================================
 # End of Sogou Pinyin Installer (Minimal Edition)
 # =========================================================
