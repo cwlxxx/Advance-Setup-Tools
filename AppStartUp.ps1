@@ -60,7 +60,7 @@ if (-not $dotnetInstalled) {
 # endregion
 
 # region ───── Step 2: Download Release.zip ─────
-$Url = "https://github.com/cwlxxx/Advance-Setup-Tools/releases/download/latest/Release.rar"
+$Url = "https://github.com/cwlxxx/Advance-Setup-Tools/raw/refs/heads/main/Download/Release.zip"
 Write-Host "⬇️ Downloading latest Release.zip..." -ForegroundColor Cyan
 
 try {
