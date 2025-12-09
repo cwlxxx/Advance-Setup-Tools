@@ -24,7 +24,7 @@ function Show-Console {
 
 # region ───── Helper: Safe folder setup ─────
 $TempRoot = Join-Path $env:TEMP "AdvanceSetupTools"
-$ZipPath  = Join-Path $TempRoot "Release.zip"
+$ZipPath  = Join-Path $TempRoot "AdvanceSetupTools.zip"
 $ExePath  = Join-Path $TempRoot "AdvanceSetupTools.exe"
 
 if (-not (Test-Path $TempRoot)) {
