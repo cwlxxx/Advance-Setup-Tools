@@ -60,14 +60,14 @@ if (-not $dotnetInstalled) {
 # endregion
 
 # region ───── Step 2: Download Release.zip ─────
-$Url = "https://github.com/cwlxxx/Advance-Setup-Tools/raw/refs/heads/main/Download/Release.zip"
-Write-Host "⬇️ Downloading latest Release.zip..." -ForegroundColor Cyan
+$Url = "https://github.com/cwlxxx/Advance-Setup-Tools/releases/download/latest/AdvanceSetupTools.zip"
+Write-Host "⬇️ Downloading latest AdvanceSetupTools.zip..." -ForegroundColor Cyan
 
 try {
     Invoke-WebRequest -Uri $Url -OutFile $ZipPath -UseBasicParsing
     Write-Host "✅ Download complete: $ZipPath" -ForegroundColor Green
 } catch {
-    Write-Host "❌ Failed to download Release.zip" -ForegroundColor Red
+    Write-Host "❌ Failed to download AdvanceSetupTools.zip" -ForegroundColor Red
     exit
 }
 # endregion
