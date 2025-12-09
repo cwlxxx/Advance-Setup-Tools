@@ -32,34 +32,34 @@ if (-not (Test-Path $TempRoot)) {
 }
 # endregion
 
-# region ───── Step 1: Check .NET 8 Desktop Runtime ─────
-Write-Host "🔍 Checking for .NET 8 Desktop Runtime..." -ForegroundColor Cyan
+## region ───── Step 1: Check .NET 8 Desktop Runtime ─────
+#Write-Host "🔍 Checking for .NET 8 Desktop Runtime..." -ForegroundColor Cyan
+#
+#$dotnetInstalled = $false
+#try {
+#    $versionOutput = & dotnet --list-runtimes 2>$null
+#    if ($versionOutput -match "Microsoft\.WindowsDesktop\.App 8\.") {
+#        $dotnetInstalled = $true
+#        Write-Host "✅ .NET 8 Desktop Runtime found." -ForegroundColor Green
+#    }
+#} catch {
+#    Write-Host "⚠️ dotnet not found in PATH." -ForegroundColor Yellow
+#
+#
+#if (-not $dotnetInstalled) {
+#    Write-Host "🚀 Installing .NET 8 Desktop Runtime via winget..." -ForegroundColor Cyan
+#    try {
+#        winget install --id Microsoft.DotNet.DesktopRuntime.8 -e --accept-package-agreements --accept-source-agreements -h
+#    } catch {
+#        Write-Host "❌ Failed to install .NET 8 Desktop Runtime automatically." -ForegroundColor Red
+#        Write-Host "Please install manually from: https://dotnet.microsoft.com/en-us/download/dotnet/8.0" -ForegroundColor Yellow
+#        Pause
+#        exit
+#    }
+#}
+## endregion
 
-$dotnetInstalled = $false
-try {
-    $versionOutput = & dotnet --list-runtimes 2>$null
-    if ($versionOutput -match "Microsoft\.WindowsDesktop\.App 8\.") {
-        $dotnetInstalled = $true
-        Write-Host "✅ .NET 8 Desktop Runtime found." -ForegroundColor Green
-    }
-} catch {
-    Write-Host "⚠️ dotnet not found in PATH." -ForegroundColor Yellow
-}
-
-if (-not $dotnetInstalled) {
-    Write-Host "🚀 Installing .NET 8 Desktop Runtime via winget..." -ForegroundColor Cyan
-    try {
-        winget install --id Microsoft.DotNet.DesktopRuntime.8 -e --accept-package-agreements --accept-source-agreements -h
-    } catch {
-        Write-Host "❌ Failed to install .NET 8 Desktop Runtime automatically." -ForegroundColor Red
-        Write-Host "Please install manually from: https://dotnet.microsoft.com/en-us/download/dotnet/8.0" -ForegroundColor Yellow
-        Pause
-        exit
-    }
-}
-# endregion
-
-# region ───── Step 2: Download Release.zip ─────
+# region ───── Step 2: Download AdvanceSetupTools.zip ─────
 $Url = "https://github.com/cwlxxx/Advance-Setup-Tools/releases/download/latest/AdvanceSetupTools.zip"
 Write-Host "⬇️ Downloading latest AdvanceSetupTools.zip..." -ForegroundColor Cyan
 
