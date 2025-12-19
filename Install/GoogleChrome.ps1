@@ -14,7 +14,6 @@ if (
     $wingetText -match "No available upgrade found"
 ) {
 
-    exit 0
 }
 
 Write-Host "Winget failed. Falling back to official Chrome installer..."
