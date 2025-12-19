@@ -1,9 +1,19 @@
 Write-Host "Installing Google Chrome via winget..."
 
-# Try winget first
-winget install --id Google.Chrome --source winget --exact
-if ($LASTEXITCODE -eq 0) {
-    Write-Host "Chrome installed successfully via winget."
+# Run winget and capture output
+$wingetOutput = winget install --id Google.Chrome --source winget --exact 2>&1
+$exitCode = $LASTEXITCODE
+
+$wingetText = $wingetOutput | Out-String
+Write-Host $wingetText
+
+# SUCCESS conditions
+if (
+    $exitCode -eq 0 -or
+    $wingetText -match "Found an existing package already installed" -or
+    $wingetText -match "No available upgrade found"
+) {
+    Write-Host "Chrome already installed or installed successfully."
     exit 0
 }
 
@@ -28,7 +38,6 @@ catch {
     exit 1
 }
 finally {
-    # Cleanup MSI
     if (Test-Path $msiPath) {
         Remove-Item $msiPath -Force
         Write-Host "Temporary installer removed."
