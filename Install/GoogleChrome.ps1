@@ -13,7 +13,7 @@ if (
     $wingetText -match "Found an existing package already installed" -or
     $wingetText -match "No available upgrade found"
 ) {
-    Write-Host "Chrome already installed or installed successfully."
+
     exit 0
 }
 
