@@ -1,7 +1,7 @@
 Write-Host "Installing Google Chrome via winget..."
 
 # Try winget first
-winget install --id Google.Chrome --source winget --exact --ignore-security-hash
+winget install --id Google.Chrome --source winget --exact
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host "Chrome installed successfully via winget."
