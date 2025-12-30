@@ -2,7 +2,6 @@ Start-Process "winget.exe" -ArgumentList "install --id=IrfanSkiljan.IrfanView --
 
 Write-Host "Waiting for IrfanView installation to complete..." -ForegroundColor Cyan
 
-# Shortcut filenames that IrfanView creates
 $shortcutNames = @("IrfanView.lnk", "IrfanView 64.lnk")
 $desktopPaths = @(
     "$env:PUBLIC\Desktop",
