@@ -1,20 +1,13 @@
-# ============================================================
-# ☕ Oracle Java JRE 64-bit Downloader + Silent Installer
-# ============================================================
-
 Add-Type -AssemblyName PresentationFramework
 
-# --- Configuration ---
 $Java64Url   = "https://javadl.oracle.com/webapps/download/AutoDL?BundleId=252322_68ce765258164726922591683c51982c"
 $DownloadDir = Join-Path $env:TEMP "installer"
 $Installer   = Join-Path $DownloadDir "JavaRuntime-Windows-x64.exe"
 
-# --- Ensure download directory exists ---
 if (-not (Test-Path $DownloadDir)) {
     New-Item -ItemType Directory -Path $DownloadDir | Out-Null
 }
 
-# --- Check URL validity ---
 try {
     Write-Host "Checking download link..." -ForegroundColor Cyan
     $response = Invoke-WebRequest -Uri $Java64Url -Method Head -UseBasicParsing -TimeoutSec 10
@@ -28,30 +21,26 @@ catch {
     exit
 }
 
-# --- Download via BITS ---
 try {
     Write-Host "Downloading Java Runtime (64-bit)..." -ForegroundColor Yellow
     Start-BitsTransfer -Source $Java64Url -Destination $Installer -DisplayName "Downloading Java 64-bit Runtime"
-    Write-Host "✅ Download completed: $Installer" -ForegroundColor Green
+    Write-Host "Download completed: $Installer" -ForegroundColor Green
 }
 catch {
     [System.Windows.MessageBox]::Show("Failed to download Java 64-bit installer via BITS.", "Download Failed", "OK", "Error") | Out-Null
     exit
 }
 
-# --- Run silent installer (shows progress UI) ---
 try {
     Write-Host "Installing Java Runtime (64-bit)..." -ForegroundColor Cyan
 
-    # The /s argument runs the installer silently (no dialogs),
-    # but the main progress window is still displayed.
     $arguments = "/s"
     $process = Start-Process -FilePath $Installer -ArgumentList $arguments -PassThru -Wait
 
     if ($process.ExitCode -eq 0) {
-        Write-Host "✅ Java Runtime installed successfully (64-bit)." -ForegroundColor Green
+        Write-Host "Java Runtime installed successfully (64-bit)." -ForegroundColor Green
     } else {
-        Write-Warning "⚠ Installer exited with code $($process.ExitCode)."
+        Write-Warning "Installer exited with code $($process.ExitCode)."
     }
 }
 catch {
@@ -59,10 +48,9 @@ catch {
     exit
 }
 
-# --- Cleanup downloaded file ---
 try {
     Remove-Item -Path $Installer -Force -ErrorAction SilentlyContinue
-    Write-Host "🧹 Temporary installer removed." -ForegroundColor DarkGray
+    Write-Host "Temporary installer removed." -ForegroundColor DarkGray
 }
 catch {
     Write-Warning "Could not delete installer file: $Installer"
