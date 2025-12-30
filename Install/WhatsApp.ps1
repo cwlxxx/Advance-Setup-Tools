@@ -1,2 +1,1 @@
-winget settings --enable InstallerHashOverride
-winget install --id 9NKSQGP7F2NH --source msstore --exact --ignore-security-hash
+winget install --id 9NKSQGP7F2NH --source msstore --exact
