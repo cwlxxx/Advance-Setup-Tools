@@ -16,11 +16,11 @@ if (!(Test-Path $targetFile)) {
 
 try {
 
-    Write-Host "`nInstalling Microsoft Office 2019 Home and Business..." -ForegroundColor Yellow
+    Write-Host "Installing Microsoft Office 2019 Home and Business..." -ForegroundColor Yellow
     $process = Start-Process -FilePath $targetFile -PassThru
     $process.WaitForExit()
 
-    Write-Host "`n✅ Installation completed successfully!" -ForegroundColor Green
+    Write-Host "Installation completed successfully!" -ForegroundColor Green
 
 
     Write-Host "Creating Office shortcuts..." -ForegroundColor Cyan
@@ -31,10 +31,10 @@ try {
     Remove-Item -Path $targetFile -Force -ErrorAction SilentlyContinue
     Remove-Item -Path $downloadPath -Force -Recurse -ErrorAction SilentlyContinue
 
-    Write-Host "`n🎉 All done! Microsoft Office 2019 Home and Business is ready to use." -ForegroundColor Green
+    Write-Host "All done! Microsoft Office 2019 Home and Business is ready to use." -ForegroundColor Green
 }
 catch {
-    Write-Host "`n❌ Error: $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "Error: $($_.Exception.Message)" -ForegroundColor Red
 }
 
 exit
