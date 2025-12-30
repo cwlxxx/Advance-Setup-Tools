@@ -3,14 +3,12 @@ function Get-WindowsEdition {
     $caption = $os.Caption
     $build = [System.Environment]::OSVersion.Version.Build
 
-    # --- Edition Detection ---
     if ($caption -match "Home") { $edition = "Home" }
     elseif ($caption -match "Pro") { $edition = "Pro" }
     elseif ($caption -match "Enterprise") { $edition = "Ent" }
     elseif ($caption -match "Education") { $edition = "Edu" }
     else { $edition = "Edition" }
 
-    # --- Version Tag Based on Build ---
     switch ($build) {
         {$_ -ge 26200} { $version = "25H2"; break }
         {$_ -ge 26100} { $version = "24H2"; break }
@@ -23,7 +21,6 @@ function Get-WindowsEdition {
         default { $version = "N/A" }
     }
 
-    # --- Windows Generation ---
     if ($build -ge 22000) {
         $osVer = "Win11 $edition $version"
     } else {
