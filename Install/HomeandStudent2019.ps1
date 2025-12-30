@@ -16,7 +16,7 @@ if (!(Test-Path $targetFile)) {
 
 
 try {
-    Write-Host "`nInstalling Microsoft 2019 Office Home and Student ..." -ForegroundColor Yellow
+    Write-Host "Installing Microsoft 2019 Office Home and Student ..." -ForegroundColor Yellow
     $process = Start-Process -FilePath $targetFile -PassThru
     $process.WaitForExit()
 
