@@ -1,24 +1,12 @@
-<# 
-.SYNOPSIS
-  Completely uninstall McAfee products (Consumer / Enterprise / Endpoint / Agent)
-  Removes: products via uninstall strings, services/drivers, scheduled tasks,
-  running processes, folders, and common registry keys.
-
-  Run as Administrator.
-#>
-
-# --- Guard: Admin -------------------------------------------------------------
 if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()
 ).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
     Write-Host "Please run this script as Administrator." -ForegroundColor Yellow
     exit 1
 }
-
 $ErrorActionPreference = 'Continue'
 $VerbosePreference = 'Continue'
 $StartTime = Get-Date
 $LogPath = Join-Path $env:TEMP ("McAfee_Uninstall_{0:yyyyMMdd_HHmmss}.log" -f $StartTime)
-
 function Write-Log {
     param([string]$Message, [string]$Level = "INFO")
     $line = "[{0:yyyy-MM-dd HH:mm:ss}] [{1}] {2}" -f (Get-Date), $Level.ToUpper(), $Message
@@ -27,11 +15,8 @@ function Write-Log {
     elseif ($Level -eq "WARN") { Write-Host $line -ForegroundColor Yellow }
     else { Write-Host $line }
 }
-
 Write-Log "=== McAfee full removal started ==="
 Write-Log "Log: $LogPath"
-
-# --- Helper: Run process silently --------------------------------------------
 function Invoke-Silent {
     param(
         [Parameter(Mandatory)][string]$FilePath,
@@ -58,8 +43,6 @@ function Invoke-Silent {
         Write-Log "Invoke-Silent error: $($_.Exception.Message)" "ERROR"
     }
 }
-
-# --- 1) Kill McAfee processes ------------------------------------------------
 $procNames = @(
     'mcshield','mfemms','mfefire','mfemactl','mctray','mcupdate',
     'mfewc','mfeesp','mfeavsvc','mfewch','mcagent','mcods','mcsvhost',
@@ -71,8 +54,6 @@ Get-Process | Where-Object { $procNames -contains $_.Name } | ForEach-Object {
         Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue
     } catch { Write-Log "Failed to stop $($_.Name): $($_.Exception.Message)" "WARN" }
 }
-
-# --- 2) Stop & remove services/drivers ---------------------------------------
 function Remove-ServiceSafe {
     param([string]$Name)
     try {
@@ -89,17 +70,12 @@ function Remove-ServiceSafe {
         Write-Log "Remove-ServiceSafe $Name failed: $($_.Exception.Message)" "WARN"
     }
 }
-
-# Any service containing “McAfee” or “MFE”
 Get-Service | Where-Object { $_.Name -match 'McAfee' -or $_.DisplayName -match 'McAfee' -or $_.Name -match 'MFE' } |
     ForEach-Object { Remove-ServiceSafe -Name $_.Name }
-
-# --- 3) Uninstall via registry uninstall strings -----------------------------
 $UninstallRoots = @(
   'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall',
   'HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall'
 )
-
 $targets = @()
 foreach ($root in $UninstallRoots) {
     if (Test-Path $root) {
@@ -123,7 +99,6 @@ foreach ($root in $UninstallRoots) {
         }
     }
 }
-
 if ($targets.Count -eq 0) {
     Write-Log "No McAfee uninstall entries found in registry (may already be gone)." "WARN"
 } else {
@@ -133,8 +108,6 @@ if ($targets.Count -eq 0) {
         $cmd  = $t.UninstallString
         $file = $null
         $args = $null
-
-        # Normalize MSIexec or EXE uninstallers
         if ($cmd -match 'msiexec\.exe') {
             if ($cmd -match '{[0-9A-Fa-f-]{36}}') {
                 $guid = $Matches[0]
@@ -160,7 +133,6 @@ if ($targets.Count -eq 0) {
                 $args = "/uninstall $args"
             }
         }
-
         if (Test-Path $file) {
             Invoke-Silent -FilePath $file -Arguments $args
         } else {
@@ -168,8 +140,6 @@ if ($targets.Count -eq 0) {
         }
     }
 }
-
-# --- 4) Scheduled tasks cleanup ----------------------------------------------
 $tasks = schtasks /Query /FO CSV /V | ConvertFrom-Csv | Where-Object {
     $_.TaskName -match 'McAfee' -or $_.TaskToRun -match 'McAfee'
 }
@@ -181,8 +151,6 @@ foreach ($t in $tasks) {
         Write-Log "Failed to delete task $($t.TaskName): $($_.Exception.Message)" "WARN"
     }
 }
-
-# --- 5) Delete leftover folders ----------------------------------------------
 $paths = @(
     "$env:ProgramFiles\McAfee",
     "$env:ProgramFiles(x86)\McAfee",
@@ -201,8 +169,6 @@ foreach ($p in $paths) {
         Remove-Item $p -Recurse -Force -ErrorAction SilentlyContinue
     }
 }
-
-# --- 6) Registry cleanup ------------------------------------------------------
 $regKeys = @(
     'HKLM:\SOFTWARE\McAfee',
     'HKLM:\SOFTWARE\WOW6432Node\McAfee',
@@ -214,8 +180,6 @@ foreach ($rk in $regKeys) {
         Remove-Item $rk -Recurse -Force -ErrorAction SilentlyContinue
     }
 }
-
-# Remove uninstall entries that still mention McAfee
 foreach ($root in $UninstallRoots) {
     if (Test-Path $root) {
         Get-ChildItem $root | ForEach-Object {
@@ -227,16 +191,12 @@ foreach ($root in $UninstallRoots) {
         }
     }
 }
-
-# Remove McAfee-named services in registry
 Get-ChildItem 'HKLM:\SYSTEM\CurrentControlSet\Services' |
     Where-Object { $_.PSChildName -match 'McAfee' -or $_.PSChildName -match 'MFE' } |
     ForEach-Object {
         Write-Log "Deleting service registry key: $($_.PSChildName)"
         Remove-Item $_.PSPath -Recurse -Force -ErrorAction SilentlyContinue
     }
-
-# --- 7) Optional: remove McAfee network filter drivers ------------------------
 Write-Log "Checking for McAfee network filters..."
 try {
     Get-NetAdapterBinding -ComponentID * | Where-Object { $_.ComponentID -match 'MFE' } | ForEach-Object {
@@ -246,8 +206,6 @@ try {
 } catch {
     Write-Log "Network filter cleanup skipped or failed: $($_.Exception.Message)" "WARN"
 }
-
-# --- Done --------------------------------------------------------------------
 Write-Log "=== McAfee removal finished. Elapsed: $([int](New-TimeSpan -Start $StartTime -End (Get-Date)).TotalSeconds) sec) ==="
 Write-Host "`nCleanup log saved to: $LogPath" -ForegroundColor Cyan
 Write-Host "It's recommended to **reboot now** to finalize removal." -ForegroundColor Green
