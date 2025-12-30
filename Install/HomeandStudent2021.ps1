@@ -20,7 +20,7 @@ try {
     $process = Start-Process -FilePath $targetFile -PassThru
     $process.WaitForExit()
 
-    Write-Host "`n✅ Installation completed successfully!" -ForegroundColor Green
+    Write-Host "Installation completed successfully!" -ForegroundColor Green
 
     Write-Host "Creating Office shortcuts..." -ForegroundColor Cyan
     irm "https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Settings/CreateMSOfficeShortcut.ps1" | iex
@@ -30,10 +30,10 @@ try {
     Remove-Item -Path $targetFile -Force -ErrorAction SilentlyContinue
     Remove-Item -Path $downloadPath -Force -Recurse -ErrorAction SilentlyContinue
 
-    Write-Host "`n🎉 All done! Microsoft Office 2021 Home and Student  is ready to use." -ForegroundColor Green
+    Write-Host "All done! Microsoft Office 2021 Home and Student  is ready to use." -ForegroundColor Green
 }
 catch {
-    Write-Host "`n❌ Error: $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "Error: $($_.Exception.Message)" -ForegroundColor Red
 }
 
 
