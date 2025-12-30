@@ -4,9 +4,9 @@ $ScriptAuthor  = "Liang"
 $Title         = "$ScriptName - v$ScriptVersion by $ScriptAuthor"
 
 Write-Host "`n==============================================" -ForegroundColor DarkCyan
-Write-Host "🧱 $ScriptName" -ForegroundColor Cyan
-Write-Host "📜 Version : $ScriptVersion" -ForegroundColor Gray
-Write-Host "👤 Author  : $ScriptAuthor" -ForegroundColor Gray
+Write-Host "$ScriptName" -ForegroundColor Cyan
+Write-Host "Version : $ScriptVersion" -ForegroundColor Gray
+Write-Host "Author  : $ScriptAuthor" -ForegroundColor Gray
 Write-Host "==============================================" -ForegroundColor DarkCyan
 
 $Host.UI.RawUI.WindowTitle = $Title
@@ -106,14 +106,14 @@ function Test-FirewallRuleMatch {
     return ,$true, "OK"
 }
 
-Write-Host "`n⚡ Indexing all existing firewall rules..." -ForegroundColor Cyan
+Write-Host "`nIndexing all existing firewall rules..." -ForegroundColor Cyan
 $allRules = @()
 $ruleCount = 0
 
 Get-NetFirewallRule -ErrorAction SilentlyContinue | ForEach-Object {
     $ruleCount++
     if ($ruleCount % 50 -eq 0) {
-        Write-Host "   🔢 Indexed $ruleCount rules..." -ForegroundColor DarkGray
+        Write-Host "   Indexed $ruleCount rules..." -ForegroundColor DarkGray
     }
     $appFilter = Get-NetFirewallApplicationFilter -AssociatedNetFirewallRule $_ -ErrorAction SilentlyContinue
     if ($appFilter.Program) {
@@ -125,17 +125,17 @@ Get-NetFirewallRule -ErrorAction SilentlyContinue | ForEach-Object {
     }
 }
 
-Write-Host "✅ Done indexing firewall rules. Total indexed: $ruleCount" -ForegroundColor Green
+Write-Host "Done indexing firewall rules. Total indexed: $ruleCount" -ForegroundColor Green
 
 [int]$addedCount = 0
 [int]$removedDupCount = 0
 
 foreach ($folder in $TargetFolders) {
-    Write-Host "`n🔍 Scanning folder: $folder" -ForegroundColor Cyan
+    Write-Host "`nScanning folder: $folder" -ForegroundColor Cyan
     $exeFiles = Get-ChildItem -Path $folder -Recurse -Filter "*$FileType" -ErrorAction SilentlyContinue
 
     if (-not $exeFiles) {
-        Write-Host "❌ No files found in $folder" -ForegroundColor Red
+        Write-Host "No files found in $folder" -ForegroundColor Red
         continue
     }
 
@@ -144,13 +144,13 @@ foreach ($folder in $TargetFolders) {
         $ruleNameIn  = "$RulePrefix IN $exePath"
         $ruleNameOut = "$RulePrefix OUT $exePath"
 
-        Write-Host "`n🟦 Checking: $exePath" -ForegroundColor Yellow
+        Write-Host "`nChecking: $exePath" -ForegroundColor Yellow
 
         $dupRules = $allRules | Where-Object { $_.Program -eq $exePath }
         if ($dupRules) {
             foreach ($r in $dupRules) {
                 Remove-NetFirewallRule -Name $r.Name -ErrorAction SilentlyContinue
-                Write-Host "   🧹 Removed duplicate rule → $($r.Display)" -ForegroundColor DarkGray
+                Write-Host "   Removed duplicate rule → $($r.Display)" -ForegroundColor DarkGray
                 $removedDupCount++
             }
         }
@@ -166,16 +166,16 @@ foreach ($folder in $TargetFolders) {
                                 -Enabled True `
                                 -ErrorAction SilentlyContinue | Out-Null
 
-            Write-Host "   ➕ [$direction] $exePath → Added new firewall rule." -ForegroundColor Green
+            Write-Host "   [$direction] $exePath → Added new firewall rule." -ForegroundColor Green
             $addedCount++
         }
     }
 }
 
 Write-Host "`n==============================================" -ForegroundColor DarkCyan
-Write-Host "✅ Completed processing of all target folders" -ForegroundColor Cyan
-Write-Host "🧹 Duplicates Removed : $removedDupCount" -ForegroundColor DarkGray
-Write-Host "🧱 New Rules Added    : $addedCount" -ForegroundColor Green
+Write-Host "Completed processing of all target folders" -ForegroundColor Cyan
+Write-Host "Duplicates Removed : $removedDupCount" -ForegroundColor DarkGray
+Write-Host "New Rules Added    : $addedCount" -ForegroundColor Green
 Write-Host "==============================================" -ForegroundColor DarkCyan
 Write-Host "`nWaiting $ExitDelaySec seconds before exit..." -ForegroundColor Gray
 Start-Sleep -Seconds $ExitDelaySec
