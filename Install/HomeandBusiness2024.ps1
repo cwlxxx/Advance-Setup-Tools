@@ -15,7 +15,7 @@ if (!(Test-Path $targetFile)) {
 }
 
 try {
-    Write-Host "`nInstalling Microsoft Office 2024 Home and Business..." -ForegroundColor Yellow
+    Write-Host "Installing Microsoft Office 2024 Home and Business..." -ForegroundColor Yellow
     $process = Start-Process -FilePath $targetFile -PassThru
     $process.WaitForExit()
 
