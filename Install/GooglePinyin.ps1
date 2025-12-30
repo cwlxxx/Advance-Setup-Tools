@@ -1,2 +1,2 @@
-winget settings --enable InstallerHashOverride
-winget install --id Google.Pinyin --source winget --exact --ignore-security-hash
+
+winget install --id Google.Pinyin --source winget --exact
