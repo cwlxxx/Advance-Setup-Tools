@@ -1,8 +1,6 @@
-winget settings --enable InstallerHashOverride
+Start-Process "winget.exe" -ArgumentList "install --id=IrfanSkiljan.IrfanView --source winget --exact --accept-package-agreements --accept-source-agreements" -NoNewWindow -Wait
 
-Start-Process "winget.exe" -ArgumentList "install --id=IrfanSkiljan.IrfanView --source winget --exact --accept-package-agreements --accept-source-agreements --ignore-security-hash" -NoNewWindow -Wait
-
-Write-Host "⏳ Waiting for IrfanView installation to complete..." -ForegroundColor Cyan
+Write-Host "Waiting for IrfanView installation to complete..." -ForegroundColor Cyan
 
 # Shortcut filenames that IrfanView creates
 $shortcutNames = @("IrfanView.lnk", "IrfanView 64.lnk")
@@ -11,15 +9,14 @@ $desktopPaths = @(
     [Environment]::GetFolderPath('Desktop')
 )
 
-# Wait up to 45 seconds (longer than before)
 $foundShortcut = $false
-for ($i = 0; $i -lt 45; $i++) {
+for ($i = 0; $i -lt 30; $i++) {
     foreach ($desktop in $desktopPaths) {
         foreach ($name in $shortcutNames) {
             $shortcut = Join-Path $desktop $name
             if (Test-Path $shortcut) {
                 $foundShortcut = $true
-                Write-Host "🧩 Detected shortcut: $shortcut" -ForegroundColor DarkGray
+                Write-Host "Detected shortcut: $shortcut" -ForegroundColor DarkGray
             }
         }
     }
@@ -29,12 +26,12 @@ for ($i = 0; $i -lt 45; $i++) {
 }
 
 if ($foundShortcut) {
-    Write-Host "🧩 IrfanView shortcut detected — proceeding to remove..." -ForegroundColor Yellow
+    Write-Host "IrfanView shortcut detected — proceeding to remove..." -ForegroundColor Yellow
 } else {
-    Write-Host "⚠️ No IrfanView shortcut detected after waiting — continuing anyway." -ForegroundColor DarkYellow
+    Write-Host "No IrfanView shortcut detected after waiting — continuing anyway." -ForegroundColor DarkYellow
 }
 
-# 🗑️ Attempt to remove all shortcuts (with retry)
+
 foreach ($desktop in $desktopPaths) {
     foreach ($name in $shortcutNames) {
         $shortcut = Join-Path $desktop $name
@@ -42,10 +39,10 @@ foreach ($desktop in $desktopPaths) {
             for ($retry = 0; $retry -lt 3; $retry++) {
                 try {
                     Remove-Item $shortcut -Force -ErrorAction Stop
-                    Write-Host "🗑️ Removed desktop shortcut: $shortcut" -ForegroundColor Green
+                    Write-Host "Removed desktop shortcut: $shortcut" -ForegroundColor Green
                     break
                 } catch {
-                    Write-Host "⚠️ Failed to remove shortcut (attempt $($retry + 1)): $($_.Exception.Message)" -ForegroundColor Red
+                    Write-Host "Failed to remove shortcut (attempt $($retry + 1)): $($_.Exception.Message)" -ForegroundColor Red
                     Start-Sleep -Seconds 1
                 }
             }
@@ -53,4 +50,4 @@ foreach ($desktop in $desktopPaths) {
     }
 }
 
-Write-Host "✅ IrfanView desktop shortcut cleanup completed." -ForegroundColor Cyan
+Write-Host "IrfanView desktop shortcut cleanup completed." -ForegroundColor Cyan
