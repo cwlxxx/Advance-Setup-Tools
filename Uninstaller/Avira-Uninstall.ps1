@@ -1,24 +1,12 @@
-<# 
-.SYNOPSIS
-  Completely uninstall Avira products (Avira Security/Antivirus/Launcher/VPN, etc.)
-  Removes: products via uninstall strings, services/drivers, scheduled tasks,
-  running processes, folders, and common registry keys.
-
-  Run as Administrator.
-#>
-
-# --- Guard: Admin -------------------------------------------------------------
 if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()
 ).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
     Write-Host "Please run this script as Administrator." -ForegroundColor Yellow
     exit 1
 }
-
 $ErrorActionPreference = 'Continue'
 $VerbosePreference = 'Continue'
 $StartTime = Get-Date
 $LogPath = Join-Path $env:TEMP ("Avira_Uninstall_{0:yyyyMMdd_HHmmss}.log" -f $StartTime)
-
 function Write-Log {
     param([string]$Message, [string]$Level = "INFO")
     $line = "[{0:yyyy-MM-dd HH:mm:ss}] [{1}] {2}" -f (Get-Date), $Level.ToUpper(), $Message
@@ -27,11 +15,8 @@ function Write-Log {
     elseif ($Level -eq "WARN") { Write-Host $line -ForegroundColor Yellow }
     else { Write-Host $line }
 }
-
 Write-Log "=== Avira full removal started ==="
 Write-Log "Log: $LogPath"
-
-# --- Helper: Run process silently --------------------------------------------
 function Invoke-Silent {
     param(
         [Parameter(Mandatory)][string]$FilePath,
@@ -58,8 +43,6 @@ function Invoke-Silent {
         Write-Log "Invoke-Silent error: $($_.Exception.Message)" "ERROR"
     }
 }
-
-# --- 1) Kill Avira processes (best effort) -----------------------------------
 $procNames = @(
     'Avira.ServiceHost','Avira.Spotlight.Service','Avira.Updater.Service',
     'Avira.Systray','Avira.Security','avguard','avshadow','avgnt','avcenter',
@@ -72,8 +55,6 @@ Get-Process | Where-Object { $procNames -contains $_.Name } | ForEach-Object {
         Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue
     } catch { Write-Log "Failed to stop $($_.Name): $($_.Exception.Message)" "WARN" }
 }
-
-# --- 2) Stop & remove services/drivers named like Avira ----------------------
 function Remove-ServiceSafe {
     param([string]$Name)
     try {
@@ -90,17 +71,12 @@ function Remove-ServiceSafe {
         Write-Log "Remove-ServiceSafe $Name failed: $($_.Exception.Message)" "WARN"
     }
 }
-
-# Any service with "Avira" in its name
 Get-Service | Where-Object { $_.Name -match 'Avira' -or $_.DisplayName -match 'Avira' } |
     ForEach-Object { Remove-ServiceSafe -Name $_.Name }
-
-# --- 3) Uninstall via registry uninstall strings -----------------------------
 $UninstallRoots = @(
   'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall',
   'HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall'
 )
-
 $targets = @()
 foreach ($root in $UninstallRoots) {
     if (Test-Path $root) {
@@ -124,21 +100,16 @@ foreach ($root in $UninstallRoots) {
         }
     }
 }
-
 if ($targets.Count -eq 0) {
     Write-Log "No Avira uninstall entries found in registry (may already be gone)." "WARN"
 } else {
     Write-Log "Found $($targets.Count) Avira uninstall entries."
     foreach ($t in $targets) {
         Write-Log "Preparing to uninstall: $($t.DisplayName)"
-
         $cmd  = $t.UninstallString
         $file = $null
         $args = $null
-
-        # Normalize MSIexec / product code cases
         if ($cmd -match 'msiexec\.exe' -or $cmd -match 'MsiExec\.exe' -or $cmd -match 'msiexec') {
-            # Extract product code if present
             if ($cmd -match '{[0-9A-Fa-f-]{36}}') {
                 $guid = $Matches[0]
                 $file = "$env:WINDIR\System32\msiexec.exe"
@@ -148,7 +119,6 @@ if ($targets.Count -eq 0) {
                 $args = "/x /qn /norestart"
             }
         } else {
-            # Split path and args, then add silent guesses
             if ($cmd.StartsWith('"')) {
                 $file = $cmd.Split('"')[1]
                 $args = $cmd.Substring($cmd.IndexOf('"',1)+1).Trim()
@@ -157,7 +127,6 @@ if ($targets.Count -eq 0) {
                 $file = $parts[0]
                 $args = if ($parts.Count -gt 1) { $parts[1] } else { "" }
             }
-            # Add common silent switches if not present
             if ($args -notmatch '/quiet' -and $args -notmatch '/S' -and $args -notmatch '/silent') {
                 $args = "$args /quiet /silent /S"
             }
@@ -165,7 +134,6 @@ if ($targets.Count -eq 0) {
                 $args = "/uninstall $args"
             }
         }
-
         if (Test-Path $file) {
             Invoke-Silent -FilePath $file -Arguments $args
         } else {
@@ -173,8 +141,6 @@ if ($targets.Count -eq 0) {
         }
     }
 }
-
-# Optional: try winget if available (best effort)
 try {
     if (Get-Command winget -ErrorAction SilentlyContinue) {
         $wingetPkgs = winget list | Select-String -Pattern '^Avira' -SimpleMatch
@@ -192,8 +158,6 @@ try {
         }
     }
 } catch { Write-Log "winget phase error: $($_.Exception.Message)" "WARN" }
-
-# --- 4) Remove scheduled tasks ------------------------------------------------
 $tasks = schtasks /Query /FO CSV /V | ConvertFrom-Csv | Where-Object {
     $_.TaskName -match 'Avira' -or $_.TaskToRun -match 'Avira'
 }
@@ -205,8 +169,6 @@ foreach ($t in $tasks) {
         Write-Log "Failed to delete task $($t.TaskName): $($_.Exception.Message)" "WARN"
     }
 }
-
-# --- 5) Delete leftover folders ----------------------------------------------
 $paths = @(
     "$env:ProgramFiles\Avira",
     "$env:ProgramFiles(x86)\Avira",
@@ -214,9 +176,8 @@ $paths = @(
     "$env:ProgramData\Microsoft\Windows\Start Menu\Programs\Avira",
     "$env:LOCALAPPDATA\Avira",
     "$env:APPDATA\Avira",
-    "$env:ProgramData\Package Cache"  # clean only Avira subfolders below
+    "$env:ProgramData\Package Cache"
 )
-
 foreach ($p in $paths) {
     if (Test-Path $p) {
         if ($p -like "*Package Cache") {
@@ -232,8 +193,6 @@ foreach ($p in $paths) {
         }
     }
 }
-
-# --- 6) Registry cleanup ------------------------------------------------------
 $regKeys = @(
     'HKLM:\SOFTWARE\Avira',
     'HKLM:\SOFTWARE\WOW6432Node\Avira',
@@ -245,8 +204,6 @@ foreach ($rk in $regKeys) {
         Remove-Item $rk -Recurse -Force -ErrorAction SilentlyContinue
     }
 }
-
-# Remove Avira uninstall entries that might remain
 foreach ($root in $UninstallRoots) {
     if (Test-Path $root) {
         Get-ChildItem $root | ForEach-Object {
@@ -258,19 +215,12 @@ foreach ($root in $UninstallRoots) {
         }
     }
 }
-
-# Remove residual Avira-named services (registry)
 Get-ChildItem 'HKLM:\SYSTEM\CurrentControlSet\Services' |
     Where-Object { $_.PSChildName -match 'Avira' } |
     ForEach-Object {
         Write-Log "Deleting service registry key: $($_.PSChildName)"
         Remove-Item $_.PSPath -Recurse -Force -ErrorAction SilentlyContinue
     }
-
-# --- 7) Network drivers / filters (best effort, Avira Web/Firewall) ----------
-# Often tied to services above. Nothing specific to remove here if services are gone.
-
-# --- Wrap up ------------------------------------------------------------------
 Write-Log "=== Avira removal finished. Elapsed: $([int](New-TimeSpan -Start $StartTime -End (Get-Date)).TotalSeconds) sec) ==="
 Write-Host "`nCleanup log saved to: $LogPath" -ForegroundColor Cyan
 Write-Host "It's recommended to **reboot now** to release locked files and finalize removal." -ForegroundColor Green
