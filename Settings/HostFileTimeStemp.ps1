@@ -1,29 +1,6 @@
-# ============================================================
-# 🧱 HostFileTimeStemp - WPF Edition (by Liang) - Version 2.1
-# ============================================================
-# Description:
-#   - Modern WPF window asks: "PC Setup By" → Hytec / Easy PC (vertical layout)
-#   - Red "Exit" button to close without changes
-#   - Writes a setup record to Windows HOSTS file (adds new record each time)
-#   - Dark gradient theme with smooth fade-in animation
-#   - Clean, footerless minimalist design
-#   - PowerShell 7 only
-# ============================================================
-
-
-# ------------------------------------------------------------
-# ⚙️ Section : Environment Setup - Start
-# ------------------------------------------------------------
-Write-Host "⚙️ Running in simplified mode (no version/admin checks)..." -ForegroundColor Cyan
+Write-Host "Running in simplified mode (no version/admin checks)..." -ForegroundColor Cyan
 Add-Type -AssemblyName PresentationCore, PresentationFramework, WindowsBase
-# ------------------------------------------------------------
-# ⚙️ Section : Environment Setup - End
-# ------------------------------------------------------------
 
-
-# ------------------------------------------------------------
-# 🪟 Section : Create WPF Window (XAML) - Start
-# ------------------------------------------------------------
 [xml]$xaml = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -177,16 +154,13 @@ Add-Type -AssemblyName PresentationCore, PresentationFramework, WindowsBase
 </Window>
 '@
 
-# Load the WPF window
 $xmlReader = New-Object System.Xml.XmlNodeReader $xaml
 $window = [Windows.Markup.XamlReader]::Load($xmlReader)
 
-# Find buttons
 $BtnHytec  = $window.FindName('BtnHytec')
 $BtnEasyPC = $window.FindName('BtnEasyPC')
 $BtnExit   = $window.FindName('BtnExit')
 
-# Enable window dragging
 $Root_MouseDown = {
     param($sender, $e)
     if ($e.LeftButton -eq [System.Windows.Input.MouseButtonState]::Pressed) {
@@ -194,14 +168,7 @@ $Root_MouseDown = {
     }
 }
 $window.Add_MouseDown($Root_MouseDown)
-# ------------------------------------------------------------
-# 🪟 Section : Create WPF Window (XAML) - End
-# ------------------------------------------------------------
 
-
-# ------------------------------------------------------------
-# 🧠 Section : Button Actions & Result - Start
-# ------------------------------------------------------------
 $script:SetupBy = $null
 $BtnExit.Add_Click({ $window.Close(); return })
 $BtnHytec.Add_Click({ $script:SetupBy = 'Hytec'; $window.Close() })
@@ -212,25 +179,15 @@ if (-not $script:SetupBy) {
     Write-Host "No selection made. Exiting without changes." -ForegroundColor Yellow
     return
 }
-# ------------------------------------------------------------
-# 🧠 Section : Button Actions & Result - End
-# ------------------------------------------------------------
 
-
-# ------------------------------------------------------------
-# 🧾 Section : Hosts File Update - Start
-# ------------------------------------------------------------
 $hostsPath = Join-Path $env:SystemRoot 'System32\drivers\etc\hosts'
 
-# Prepare date & time
 $now = Get-Date
 $date = $now.ToString("dd-MM-yyyy")
 $time = $now.ToString("hh:mm:ss tt")
 
-# Read current hosts file
 $content = Get-Content -Path $hostsPath -Raw -ErrorAction Stop
 
-# Build new entry block
 $newEntry = @"
 # ============================================================
 # This PC Set Up By : $($script:SetupBy)
@@ -239,25 +196,12 @@ $newEntry = @"
 # ============================================================
 "@.Trim()
 
-# Add line breaks for clarity and insert on top
 $newBlock = "$newEntry`r`n`r`n"
 $updated = $newBlock + $content.TrimStart()
 
-# Write updated hosts file (ASCII encoding)
 $updated | Out-File -FilePath $hostsPath -Encoding ASCII -Force
-# ------------------------------------------------------------
-# 🧾 Section : Hosts File Update - End
-# ------------------------------------------------------------
 
-
-
-# ------------------------------------------------------------
-# 🖨️ Section : Console Output (Show Hosts Content) - Start
-# ------------------------------------------------------------
 Write-Host ""
 Write-Host "==================== HOSTS FILE (AFTER UPDATE) ====================" -ForegroundColor Cyan
 Get-Content -Path $hostsPath | ForEach-Object { Write-Host $_ }
 Write-Host "===================================================================" -ForegroundColor Cyan
-# ------------------------------------------------------------
-# 🖨️ Section : Console Output (Show Hosts Content) - End
-# ------------------------------------------------------------
