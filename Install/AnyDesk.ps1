@@ -21,5 +21,3 @@ catch {
 
     Write-Host "Fallback install completed."
 }
-
-# Script ends naturally here – next .ps1 continues
