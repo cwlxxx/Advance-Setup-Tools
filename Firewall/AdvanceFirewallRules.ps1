@@ -40,7 +40,8 @@ $TargetFolders = @(
     "%USERPROFILE%\AppData\Local\Programs\Autodesk\",
     "%USERPROFILE%\AppData\Roaming\Autodesk\",
     "%USERPROFILE%\Autodesk\",
-
+    
+    "C:\Program Files\Chaos\",
     "C:\Program Files\Chaos Group\",
     "C:\Program Files\Common Files\ChaosGroup\",
     "%USERPROFILE%\AppData\Local\ChaosGroup\",
