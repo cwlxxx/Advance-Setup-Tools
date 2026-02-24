@@ -77,10 +77,30 @@ function Cleanup-Installer {
     }
 }
 
+function Launch-Avira {
+    Write-Host "`nLaunching Avira UI..." -ForegroundColor Cyan
+
+    try {
+        $AviraExe = "C:\Program Files (x86)\Avira\Launcher\Avira.Systray.exe"
+        $Arguments = "/showMiniGui"
+
+        if (Test-Path $AviraExe) {
+            Start-Process -FilePath $AviraExe -ArgumentList $Arguments -ErrorAction SilentlyContinue
+            Write-Host "🟢 Avira UI launched." -ForegroundColor Green
+        } else {
+            Write-Host "⚠️  Avira Systray executable not found." -ForegroundColor Yellow
+        }
+    }
+    catch {
+        Write-Host "⚠️  Failed to launch Avira UI: $($_.Exception.Message)" -ForegroundColor Yellow
+    }
+}
+
 Ensure-Directory
 
 if (Download-InstallerBITS -Url $DownloadUrl -OutFile $InstallerPath) {
     Install-Avira -FilePath $InstallerPath
+    Launch-Avira
     Cleanup-Installer
     Write-Host "`n✅ All tasks completed successfully." -ForegroundColor Green
 } else {
