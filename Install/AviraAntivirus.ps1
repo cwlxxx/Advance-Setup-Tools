@@ -100,6 +100,7 @@ Ensure-Directory
 
 if (Download-InstallerBITS -Url $DownloadUrl -OutFile $InstallerPath) {
     Install-Avira -FilePath $InstallerPath
+    Start-Sleep -Seconds 5
     Launch-Avira
     Cleanup-Installer
     Write-Host "`n✅ All tasks completed successfully." -ForegroundColor Green
