@@ -1,25 +1,22 @@
-$DownloadUrl   = "https://package.avira.com/package/oeavira/win/int/avira_en_av_ww.exe"
-$InstallerName = "AviraSetup.exe"
+$DownloadUrl   = "https://github.com/cwlxxx/Advance-Setup-Tools/raw/refs/heads/main/Install/avira_installer.zip"
+$ZipName       = "avira_installer.zip"
 $TargetDir     = Join-Path $env:TEMP "installer"
-$InstallerPath = Join-Path $TargetDir $InstallerName
+$ZipPath       = Join-Path $TargetDir $ZipName
+$ExtractPath   = Join-Path $TargetDir "Extracted"
+$InstallerExe  = Join-Path $ExtractPath "avira_installer.exe"
 
 function Ensure-Directory {
-    if (-not (Test-Path -Path $TargetDir)) {
-        Write-Host "Creating download directory: $TargetDir" -ForegroundColor Cyan
+    if (-not (Test-Path $TargetDir)) {
+        Write-Host "Creating working directory: $TargetDir" -ForegroundColor Cyan
         New-Item -ItemType Directory -Path $TargetDir -Force | Out-Null
-    } else {
-        Write-Host "Download directory already exists: $TargetDir" -ForegroundColor DarkGray
     }
 }
 
-function Download-InstallerBITS {
-    param (
-        [string]$Url,
-        [string]$OutFile
-    )
+function Download-Zip {
+    param ($Url, $OutFile)
 
     try {
-        Write-Host "Starting download from: $Url" -ForegroundColor Cyan
+        Write-Host "Downloading Avira package..." -ForegroundColor Cyan
 
         if (Test-Path $OutFile) {
             Remove-Item $OutFile -Force
@@ -28,10 +25,11 @@ function Download-InstallerBITS {
         Start-BitsTransfer -Source $Url -Destination $OutFile -TransferType Download -ErrorAction Stop
 
         if (Test-Path $OutFile) {
-            Write-Host "✅ Download completed successfully!" -ForegroundColor Green
+            Write-Host "✅ Download completed!" -ForegroundColor Green
             return $true
-        } else {
-            throw "File not found after transfer."
+        }
+        else {
+            throw "ZIP missing after download."
         }
     }
     catch {
@@ -40,21 +38,43 @@ function Download-InstallerBITS {
     }
 }
 
-function Install-Avira {
-    param (
-        [string]$FilePath
-    )
-
-    Write-Host "`nStarting silent installation..." -ForegroundColor Cyan
+function Extract-Zip {
     try {
-        # Silent install parameters
-        $Arguments = "/SILENT"
+        Write-Host "Extracting ZIP..." -ForegroundColor Cyan
 
-        $process = Start-Process -FilePath $FilePath -ArgumentList $Arguments -Wait -PassThru -ErrorAction Stop
+        if (Test-Path $ExtractPath) {
+            Remove-Item $ExtractPath -Recurse -Force
+        }
+
+        Expand-Archive -Path $ZipPath -DestinationPath $ExtractPath -Force
+
+        if (Test-Path $InstallerExe) {
+            Write-Host "✅ Extraction successful." -ForegroundColor Green
+            return $true
+        }
+        else {
+            throw "Installer not found after extraction."
+        }
+    }
+    catch {
+        Write-Host "❌ Extraction failed: $($_.Exception.Message)" -ForegroundColor Red
+        return $false
+    }
+}
+
+function Install-Avira {
+    try {
+        Write-Host "Starting silent installation..." -ForegroundColor Cyan
+
+        $Arguments = "/silent"
+
+        $process = Start-Process -FilePath $InstallerExe -ArgumentList $Arguments -Wait -PassThru -ErrorAction Stop
+
         if ($process.ExitCode -eq 0) {
             Write-Host "✅ Avira installed successfully." -ForegroundColor Green
-        } else {
-            Write-Host "⚠️  Installer exited with code: $($process.ExitCode)" -ForegroundColor Yellow
+        }
+        else {
+            Write-Host "⚠️ Installer exit code: $($process.ExitCode)" -ForegroundColor Yellow
         }
     }
     catch {
@@ -62,49 +82,29 @@ function Install-Avira {
     }
 }
 
-function Cleanup-Installer {
-    Write-Host "`nCleaning up temporary files..." -ForegroundColor Cyan
+function Cleanup {
     try {
+        Write-Host "Cleaning up..." -ForegroundColor Cyan
         if (Test-Path $TargetDir) {
             Remove-Item -Path $TargetDir -Recurse -Force
-            Write-Host "🧹 Temporary files removed from: $TargetDir" -ForegroundColor DarkGray
-        } else {
-            Write-Host "No temporary files found."
         }
     }
     catch {
-        Write-Host "⚠️  Cleanup failed: $($_.Exception.Message)" -ForegroundColor Yellow
+        Write-Host "⚠️ Cleanup failed." -ForegroundColor Yellow
     }
 }
 
-function Launch-Avira {
-    Write-Host "`nLaunching Avira UI..." -ForegroundColor Cyan
-
-    try {
-        $AviraExe = "C:\Program Files (x86)\Avira\Launcher\Avira.Systray.exe"
-        $Arguments = "/showMiniGui"
-
-        if (Test-Path $AviraExe) {
-            Start-Process -FilePath $AviraExe -ArgumentList $Arguments -ErrorAction SilentlyContinue
-            Write-Host "🟢 Avira UI launched." -ForegroundColor Green
-        } else {
-            Write-Host "⚠️  Avira Systray executable not found." -ForegroundColor Yellow
-        }
-    }
-    catch {
-        Write-Host "⚠️  Failed to launch Avira UI: $($_.Exception.Message)" -ForegroundColor Yellow
-    }
-}
+# ===== EXECUTION =====
 
 Ensure-Directory
 
-if (Download-InstallerBITS -Url $DownloadUrl -OutFile $InstallerPath) {
-    Install-Avira -FilePath $InstallerPath
-    Start-Sleep -Seconds 5
-    Launch-Avira
-    Cleanup-Installer
-    Write-Host "`n✅ All tasks completed successfully." -ForegroundColor Green
-} else {
-    Write-Host "`n❌ Download failed. Installation skipped." -ForegroundColor Red
+if (Download-Zip -Url $DownloadUrl -OutFile $ZipPath) {
+    if (Extract-Zip) {
+        Install-Avira
+        Cleanup
+        Write-Host "`n✅ All tasks completed." -ForegroundColor Green
+    }
 }
-
+else {
+    Write-Host "`n❌ Download failed. Aborting." -ForegroundColor Red
+}
