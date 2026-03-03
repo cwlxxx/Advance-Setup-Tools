@@ -8,6 +8,10 @@
           "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Settings/Set-ClockAndRegion.ps1 | iex"
         },
         {
+          "Name": "Disable Smart App Control",
+          "Script": "https://github.com/cwlxxx/Advance-Setup-Tools/raw/refs/heads/main/Settings/SmartAppControllOff.ps1"
+        },
+        {
           "Name": "Enable Desktop Icons",
           "Script": "irm https://raw.githubusercontent.com/cwlxxx/Advance-Setup-Tools/refs/heads/main/Settings/EnableDesktopIcons.ps1 | iex"
         },
@@ -371,6 +375,7 @@
         "Avira Antivirus",
         "Disable Fast Startup",
         "Disable Sleep",
+        "Disable Smart App Control",
         "Disable UAC",
         "Enable Desktop Icons",
         "Google Chrome",
@@ -398,6 +403,7 @@
         "CoreTemp",
         "Disable Fast Startup",
         "Disable Sleep",
+        "Disable Smart App Control",
         "Enable Desktop Icons",
         "Google Chrome",
         "Keyboard Fix (Set US, Remove MY)",
@@ -414,5 +420,5 @@
       ]
     }
   ],
-  "Version": 4.8
+  "Version": 4.9
 }
