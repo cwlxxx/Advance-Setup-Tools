@@ -9,7 +9,7 @@
         },
         {
           "Name": "Disable Smart App Control",
-          "Script": "https://github.com/cwlxxx/Advance-Setup-Tools/raw/refs/heads/main/Settings/SmartAppControllOff.ps1"
+          "Script": "irm https://github.com/cwlxxx/Advance-Setup-Tools/raw/refs/heads/main/Settings/SmartAppControllOff.ps1 | iex"
         },
         {
           "Name": "Enable Desktop Icons",
@@ -420,5 +420,5 @@
       ]
     }
   ],
-  "Version": 4.9
+  "Version": 5.0
 }
