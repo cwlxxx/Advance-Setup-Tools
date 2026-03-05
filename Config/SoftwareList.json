@@ -12,7 +12,7 @@
           "Script": "irm https://github.com/cwlxxx/Advance-Setup-Tools/raw/refs/heads/main/Settings/SmartAppControllOff.ps1 | iex"
         },
         {
-          "Name": "Disable Smart App Control",
+          "Name": "Disable Windows Account Lockout Policy",
           "Script": "irm https://github.com/cwlxxx/Advance-Setup-Tools/raw/refs/heads/main/Settings/DisableWindowsAccountLockoutPolicy.ps1 | iex"
         },
         {
@@ -424,5 +424,5 @@
       ]
     }
   ],
-  "Version": 5.1
+  "Version": 5.2
 }
