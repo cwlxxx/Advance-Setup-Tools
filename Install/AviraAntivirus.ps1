@@ -64,21 +64,14 @@ function Extract-Zip {
 
 function Install-Avira {
     try {
-        Write-Host "Starting silent installation..." -ForegroundColor Cyan
+        Write-Host "Launching Avira installer..." -ForegroundColor Cyan
 
-        $Arguments = "/silent"
+        Start-Process -FilePath $InstallerExe
 
-        $process = Start-Process -FilePath $InstallerExe -ArgumentList $Arguments -Wait -PassThru -ErrorAction Stop
-
-        if ($process.ExitCode -eq 0) {
-            Write-Host "✅ Avira installed successfully." -ForegroundColor Green
-        }
-        else {
-            Write-Host "⚠️ Installer exit code: $($process.ExitCode)" -ForegroundColor Yellow
-        }
+        Write-Host "✅ Installer launched. Continuing script..." -ForegroundColor Green
     }
     catch {
-        Write-Host "❌ Installation failed: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "❌ Failed to launch installer: $($_.Exception.Message)" -ForegroundColor Red
     }
 }
 
