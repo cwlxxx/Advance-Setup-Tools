@@ -19,8 +19,9 @@ $TargetFolders = @(
     "C:\ProgramData\Adobe\",
     "%USERPROFILE%\AppData\Local\Adobe\",
     "%USERPROFILE%\AppData\Roaming\Adobe\",
+
     
-    "C:\Program Files(x86)\Foxit Software\",
+    "C:\Program Files (x86)\Foxit Software\",
     "C:\Program Files\Foxit Software\",
     
     "C:\Program Files\Nitro\",
