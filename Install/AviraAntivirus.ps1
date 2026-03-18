@@ -94,7 +94,7 @@ Ensure-Directory
 if (Download-Zip -Url $DownloadUrl -OutFile $ZipPath) {
     if (Extract-Zip) {
         Install-Avira
-        Cleanup
+##        Cleanup
         Write-Host "`n✅ All tasks completed." -ForegroundColor Green
     }
 }
