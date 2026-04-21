@@ -46,6 +46,8 @@ $TargetFolders = @(
     "C:\Program Files\Chaos Group\",
     "C:\Program Files\Common Files\ChaosGroup\",
     "%USERPROFILE%\AppData\Local\ChaosGroup\",
+
+    "C:\Program Files\Corona\",
     
     "C:\Program Files\Corel\",
     "C:\Program Files\Common Files\Protexis\",
