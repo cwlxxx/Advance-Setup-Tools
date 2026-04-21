@@ -6,6 +6,7 @@ Program List [ 16-Mar-2026 ]
 - ABViewer
 - Autodesk
 - Vray
+- Corona
 - CorelDRAW
 - SketchUP
 - SolidWorks
