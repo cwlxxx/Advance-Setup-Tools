@@ -1,5 +1,5 @@
 $ScriptName    = "Advance Firewall Rules Script"
-$ScriptVersion = "2.3"
+$ScriptVersion = "2.4"
 $ScriptAuthor  = "Liang"
 $Title         = "$ScriptName - v$ScriptVersion by $ScriptAuthor"
 
